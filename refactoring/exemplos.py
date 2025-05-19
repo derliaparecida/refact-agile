@@ -1,24 +1,5 @@
 # Primeiro exemplo para refatorar
 def format_response(instances, search_fields):
-    """
-    Processa os resultados de uma busca e formata a resposta.
-
-    Observações:
-    1. **Falta de Modularização**: A função realiza várias tarefas distintas,
-
-    2. **Repetição de Código**: A criação de `dict_predicates` e a manipulação de listas (`list_dict`) são repetitivas.
-    3. **Nomes de Variáveis Pouco Descritivos**: Variáveis como `i`, `title` e `list_dict` não são claras.
-    4. **Falta de Verificações de Segurança**: Assume que `instances["total"]["value"]` e `hit.get("source")` sempre existem.
-    5. **Uso Ineficiente de Estruturas**: O loop para criar `search_fields_dotfy` poderia ser uma list comprehension.
-    6. **Lógica Complexa e Difícil de Ler**: A manipulação de listas e valores de predicados é confusa.
-    7. **Falta de Tipagem**: Não há anotações de tipo para os parâmetros e o retorno.
-    8. **Falta de Documentação**: Não há explicação detalhada sobre o propósito da função, parâmetros ou retorno.
-    9. **Manipulação Direta de Dados**: Modifica diretamente os valores de `title[i]`, o que pode causar efeitos colaterais.
-    10. **Lógica Dependente de Strings**: Depende de strings específicas, como `"http://www_dot_w3_dot_org/2000/01/rdf-schema#label"`,
-        o que pode ser frágil.
-
-    Total de condiçoes: 7 condições aumenta a dificuldade de testar
-    """
     search_fields_dotfy = []
     for i in search_fields:
         search_fields_dotfy.append(

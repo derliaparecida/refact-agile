@@ -1,6 +1,6 @@
 # Guia Prático: Refatoração de Sistemas Legados com Copilot Agent
 
-Este guia foi desenvolvido para uma disciplina de metodologia ágeis, com o objetivo de apresentar um passo a passo prático para refatoração de sistemas legados utilizando LLMs, para este trabalho, utilizaremos GitHub Copilot Agent.
+Este guia foi desenvolvido para a disciplina de metodologia ágeis, com o objetivo de apresentar um passo a passo prático para refatoração de sistemas legados utilizando LLMs, para este trabalho, utilizaremos GitHub Copilot Agent.
 
 ---
 
@@ -30,7 +30,13 @@ Este guia foi desenvolvido para uma disciplina de metodologia ágeis, com o obje
 
 ---
 
+## 3. Conhecendo Refatoração
+
+- [Conceito de refatoração](1-conceito-refatoracao.md)
+
 ## 3. Etapas Práticas da Refatoração
+
+- explicar
 
 ### 3.1. Identificar pontos críticos
 
@@ -43,25 +49,16 @@ Este guia foi desenvolvido para uma disciplina de metodologia ágeis, com o obje
 ### 3.3. Refatorar em pequenos passos
 
 - Dividir funções longas e reorganizar responsabilidades:
-  - _"Divida essa função em métodos menores"_
-  - _"Aplique o padrão de design xxx"_
-- **Antes/Depois:**  
-  | Antes (Função legada) | Depois (Funções refatords) |
-  |----------------------|--------------------------|
-  | ...código... | ...código refatorado... |
 
 ### 3.4. Remover duplicações
 
 - Detectar e eliminar redundâncias:
-  - _"Essas 2 funções estão com código duplicado. refatore..."_
 
 ## 4. Exemplos de Código
 
-A pasta [`examples/`](./examples) contém trechos de código legado usados como base para este tutorial.
+A pasta [`refactoring/`](./refactoring) contém trechos de código legado usados como base para este tutorial.
 
-- [format_response.py](./examples/format_response.py): Função complexa e sem modularização.
-- [validate_instance.py](./examples/validate_instance.py): Função assíncrona com múltiplas validações.
-- [utils.py](./examples/utils.py): Funções auxiliares sem tipagem e documentação.
+- [exemplos.py](./refactoring/exemplos.py): Função complexa e sem modularização.
 
 **Como executar/testar:**
 
