@@ -49,6 +49,10 @@ O GitHub Copilot Agent é uma ferramenta baseada em LLMs (Large Language Models)
 
 #### 3. Refatoração de Sistemas Legados (WIP)
 
+Martin Fowler:
+
+> _“Refatorar é mudar a estrutura de um sistema sem mudar seu comportamento, para torná-lo mais fácil de entender e mais barato de modificar.”_
+
 - [Conceito de refatoração](1-conceito-refatoracao.md)
 
 ### 3.1 . Etapas da Refatoração (TODO)
@@ -82,7 +86,7 @@ Esses exemplos foram selecionados para demonstrar práticas de refatoração, co
 
 - Pré-requisitos: Python 3.10+, VS Code, extensão Copilot Agent.
 - Instale dependências: `pip install -r requirements.txt`
-- Execute os testes: `pytest` ou `python -m unittest`
+- Execute os testes: `pytest`
 
 ---
 
