@@ -1,4 +1,4 @@
-# Guia Prático: Refatoração de Sistemas Legados com Copilot Agent
+# Experiencia no uso de Large Language Models para modernizar sistemas legados
 
 Este guia foi desenvolvido para a disciplina de metodologia ágeis, com o objetivo de apresentar um passo a passo prático para refatoração de sistemas legados utilizando LLMs, para este trabalho, utilizaremos GitHub Copilot Agent.
 
@@ -16,6 +16,10 @@ Este guia foi desenvolvido para a disciplina de metodologia ágeis, com o objeti
 8. [Recursos Extras](#8-recursos-extras)
 
 ---
+
+## Resumo
+
+A modernização de sistemas legados é um desafio comum na indústria[citar_artigo], apesar de essenciais, frequentemente apresentam limitações de desempenho, escalabilidade e usabilidade. Este trabalho relata a experiência de utilizar Large Language Models (LLMs), como Copilot, para apoiar a reengenharia de um sistema legado[adicionar_referencia_original]. Foram aplicadas diferentes xxx estratégias de interação com modelos xxx para melhorias do código. Como resultado.......
 
 ## 1. Introdução
 
@@ -54,11 +58,11 @@ Este guia foi desenvolvido para a disciplina de metodologia ágeis, com o objeti
 
 - Detectar e eliminar redundâncias:
 
-## 4. Exemplos de Código
+## 4. Exemplos de código
 
-A pasta [`refactoring/`](./refactoring) contém trechos de código legado usados como base para este tutorial.
+A pasta [`codigo-legado/`](./codigo-legado) contém trechos de código legado usados como base... Esses exemplos foram selecionados para demonstrar práticas de refatoração, como modularização, remoção de duplicações e legibilidade, utilizando LLMs como o Copilot Agent.
 
-- [exemplos.py](./refactoring/exemplos.py): Função complexa e sem modularização.
+- [exemplos.py](./codigo-legado/exemplos.py): Função complexa e sem modularização, escolhida para demonstrar como dividir responsabilidades e melhorar a legibilidade do código.
 
 **Como executar/testar:**
 
