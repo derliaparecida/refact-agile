@@ -25,17 +25,16 @@ A modernização de sistemas legados é um desafio comum na indústria[citar_art
 
 Este trabalho combina a prática de refatoração de sistemas legados com o uso de Modelos de Linguagem de Grande Escala (LLMs), propondo uma abordagem (exploratória e aplicada??) para modernização de software. O material segue a linha do livro [Refatoração](<(https://refactoring.com/)>), iniciando o guia com exemplos práticos de refatoração.
 
-Durants o processo, vamos falar do funcionamento da refatoração, explicando as técnicas e princípios aplicados. E para isso, exploramos o uso de LLMs, com foco no uso do GitHub Copilot Agent como ferramenta para sugerir melhorias, identificar pontos críticos e apoiar alteraçoes.
+Durants o processo, vamos falar do funcionamento da refatoração, explicando as técnicas e princípios aplicados. E para isso, exploramos o uso de LLMs, com foco no uso do [GitHub Copilot Agent](https://docs.github.com/en/copilot/building-copilot-extensions/building-a-copilot-agent-for-your-copilot-extension/using-copilots-llm-for-your-agent) como ferramenta para sugerir melhorias, identificar pontos críticos e apoiar alteraçoes.
 
-Para exemplificar, utilizaremos funções reais de um sistema legado, analisando como a interação com o modelo pode contribuir para a clareza, organização e manutenção do código. A proposta é avaliar se o uso de LLMs no processo de refatoração pode melhorar a qualidade técnica do software.
+Para exemplificar, utilizaremos funções reais de um sistema legado [brainiak-api](https://github.com/bmentges/brainiak_api), analisando como a interação com o modelo pode contribuir para a clareza, organização e manutenção do código. A proposta é avaliar se o uso de LLMs no processo de refatoração pode melhorar a qualidade técnica do software.
 
 - Objetivo geral:
-  Avaliar o uso de LLMs, na modernização e refatoração de sistemas legados, considerando produtividade e qualidade do código.
+  - Avaliar o uso de LLMs, na modernização e refatoração de sistemas legados, considerando produtividade e qualidade do código.
 - Objetivos Específicos:
-
-1.  Avaliar a capacidade dos LLMs em identificar pontos críticos em código legado.
-2.  Analisar as sugestões geradas por LLMs em termos de clareza, manutenção e redução de duplicidade.
-3.  Investigar o impacto do uso de LLMs na produtividade durante o processo de refatoração.
+  1.  Avaliar a capacidade dos LLMs em identificar pontos críticos em código legado.
+  2.  Analisar as sugestões geradas por LLMs em termos de clareza, manutenção e redução de duplicidade.
+  3.  Investigar o impacto do uso de LLMs na produtividade durante o processo de refatoração.
 
 ---
 
