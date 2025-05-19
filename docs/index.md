@@ -1,4 +1,4 @@
-# Experiencia no uso de Large Language Models para modernizar sistemas legados
+# Modernização de sistemas legados utilizando LLMs: Um estudo de caso
 
 Este guia foi desenvolvido para a disciplina de metodologia ágeis, com o objetivo de apresentar um passo a passo prático para refatoração de sistemas legados utilizando LLMs, para este trabalho, utilizaremos GitHub Copilot Agent.
 
@@ -7,19 +7,19 @@ Este guia foi desenvolvido para a disciplina de metodologia ágeis, com o objeti
 ## Sumário
 
 1. [Introdução](#1-introdução)
-2. [Conhecendo o Copilot Agent](#2-conhecendo-o-copilot-agent)
-3. [Etapas Práticas da Refatoração](#3-etapas-práticas-da-refatoração)
+2. [LLMs/Copilot Agent](#2-conhecendo-o-copilot-agent)
+3. [Refatoração](#3-etapas-práticas-da-refatoração)
 4. [Exemplos de Código](#4-exemplos-de-código)
-5. [Boas Práticas no Uso de LLMs](#5-boas-práticas-no-uso-de-llms)
-6. [Limitações e Cuidados](#6-limitações-e-cuidados)
-7. [Reprodutibilidade e Ambiente](#7-reprodutibilidade-e-ambiente)
-8. [Recursos Extras](#8-recursos-extras)
+5. [Boas práticas no uso de LLMs](#5-boas-práticas-no-uso-de-llms)
+6. [Limitações e cuidados](#6-limitações-e-cuidados)
+7. [Reproduzindo este ambiente](#7-reprodutibilidade-e-ambiente)
+8. [Extras](#8-recursos-extras)
 
 ---
 
 ## Resumo
 
-A modernização de sistemas legados é um desafio comum na indústria[citar_artigo], apesar de essenciais, frequentemente apresentam limitações de desempenho, escalabilidade e usabilidade. Este trabalho relata a experiência de utilizar Large Language Models (LLMs), como Copilot, para apoiar a reengenharia de um sistema legado[adicionar_referencia_original]. Foram aplicadas diferentes xxx estratégias de interação com modelos xxx para melhorias do código. Como resultado.......
+A modernização de sistemas legados é um desafio comum na indústria[citar_artigo], apesar de essenciais, frequentemente apresentam limitações de desempenho, escalabilidade e usabilidade. Este trabalho relata a experiência de utilizar Large Language Models (LLMs), como Copilot, para apoiar a reengenharia de um sistema legado [brainiak-api](https://github.com/bmentges/brainiak_api). Foram aplicadas diferentes xxx estratégias de interação com modelos xxx para melhorias do código. Como resultado.......
 
 ## 1. Introdução
 
