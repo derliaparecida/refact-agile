@@ -114,6 +114,7 @@ Esses exemplos foram selecionados para demonstrar práticas de refatoração, co
 
 - [Refactoring.com (Martin Fowler)](https://refactoring.com/)
 - [Documentação oficial do Copilot Agent](https://docs.github.com/en/copilot)
+- [Coding agent](https://github.blog/news-insights/product-news/github-copilot-meet-the-new-coding-agent/)
 - Exemplos no GitHub:
   - [Copilot Agent Playground](https://github.com/github/copilot-agent)
 - Artigos acadêmicos:
