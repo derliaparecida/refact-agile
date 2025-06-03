@@ -1,14 +1,14 @@
 # Modernização de sistemas legados utilizando LLMs: Um estudo de caso
 
-Este guia foi desenvolvido para a disciplina de metodologia ágeis, com o objetivo de apresentar um passo a passo prático para refatoração de sistemas legados utilizando LLMs, para este trabalho, utilizaremos GitHub Copilot Agent.
+Este material foi produzido para a disciplina de metodologia ágeis, com o objetivo de explorar LLMs e refatoração a de sistemas legados.
 
 ---
 
 ## Sumário (WIP)
 
-1. [Introdução](#1-introdução)
-2. [LLMs/Copilot Agent](#2-conhecendo-o-copilot-agent)
-3. [Refatoração](#3-etapas-práticas-da-refatoração)
+1. [Introdução](#1-sobre-refatoração)
+2. [Copilot](#2-sobre-o-copilot-agent)
+3. [Refatoração](#3-refatorando)
 4. [Exemplos de Código](#4-exemplos-de-código)
 5. [Boas práticas no uso de LLMs](#5-boas-práticas-no-uso-de-llms)
 6. [Limitações e cuidados](#6-limitações-e-cuidados)
@@ -17,28 +17,20 @@ Este guia foi desenvolvido para a disciplina de metodologia ágeis, com o objeti
 
 ---
 
-## Resumo (WIP)
+## 1. Sobre refatoração
 
-A modernização de sistemas legados é um desafio comum na indústria[citar_artigo], apesar de essenciais, frequentemente apresentam limitações de desempenho, escalabilidade e usabilidade. Este trabalho relata a experiência de utilizar Large Language Models (LLMs), como Copilot, para apoiar a reengenharia de um sistema legado [brainiak-api](https://github.com/bmentges/brainiak_api). Foram aplicadas diferentes xxx estratégias de interação com modelos xxx para melhorias do código. Como resultado.......
+Códigos legados geralmente são complexos e muitos não tem testes automatizados, no geral, utilizam ferramentas obsoletas ou apresentam versionamentos confusos. A refatoração é um pratica que pode ser aplicada para entender e evoluir sistemas legados. No entanto, a ausência de uma boa cobertura de testes torna o processo de refatoração ainda mais desafiador. Embora a resposta óbvia seja adicionar testes, isso nem sempre é simples, especialmente quando o design original do sistema não foi pensado para ser testável. Este trabalho combina a prática de refatoração de sistemas legados com o uso de Modelos de Linguagem de Grande Escala (LLMs), propondo uma abordagem exploratória do copilot agent, para modernização de software. O material segue a linha do livro [Refatoração](<(https://refactoring.com/)>).
 
-## 1. Introdução (TODO)
+[GitHub Copilot Agent](https://docs.github.com/en/copilot/building-copilot-extensions/building-a-copilot-agent-for-your-copilot-extension/using-copilots-llm-for-your-agent) falar da ferramenta?
 
-Este trabalho combina a prática de refatoração de sistemas legados com o uso de Modelos de Linguagem de Grande Escala (LLMs), propondo uma abordagem (exploratória e aplicada??) para modernização de software. O material segue a linha do livro [Refatoração](<(https://refactoring.com/)>), iniciando o guia com exemplos práticos de refatoração.
+Vamos refatorar algumas funçoes da API[brainiak-api](https://github.com/bmentges/brainiak_api), analisando como a interação com o copilot pode contribuir para a clareza, organização e manutenção do código.
 
-Durants o processo, vamos falar do funcionamento da refatoração, explicando as técnicas e princípios aplicados. E para isso, exploramos o uso de LLMs, com foco no uso do [GitHub Copilot Agent](https://docs.github.com/en/copilot/building-copilot-extensions/building-a-copilot-agent-for-your-copilot-extension/using-copilots-llm-for-your-agent) como ferramenta para sugerir melhorias, identificar pontos críticos e apoiar alteraçoes.
+Vamos seguir uma abordagem com pequenos passos para isolando pequenas partes do código para testar e refatorar gradualmente.
+Martin Fowler:
 
-Para exemplificar, utilizaremos funções reais de um sistema legado [brainiak-api](https://github.com/bmentges/brainiak_api), analisando como a interação com o modelo pode contribuir para a clareza, organização e manutenção do código. A proposta é avaliar se o uso de LLMs no processo de refatoração pode melhorar a qualidade técnica do software.
+> _“Refatoração (substantivo): uma modificação feita na estrutura interna do software para deixá-lo mais fácil de compreender e menos custoso para alterar, sem que seu comportamento observável seja alterado.”_
 
-- Objetivo geral:
-  - Avaliar o uso de LLMs, na modernização e refatoração de sistemas legados, considerando produtividade e qualidade do código.
-- Objetivos Específicos:
-  1.  Avaliar a capacidade dos LLMs em identificar pontos críticos em código legado.
-  2.  Analisar as sugestões geradas por LLMs em termos de clareza, manutenção e redução de duplicidade.
-  3.  Investigar o impacto do uso de LLMs na produtividade durante o processo de refatoração.
-
----
-
-#### 2. LLMs e Copilot Agent (WIP)
+#### 2. Sobre o Copilot Agent
 
 O GitHub Copilot Agent é uma ferramenta baseada em LLMs (Large Language Models). Segundo a documentação oficial:
 
@@ -47,75 +39,167 @@ O GitHub Copilot Agent é uma ferramenta baseada em LLMs (Large Language Models)
 
 ---
 
-#### 3. Refatoração de Sistemas Legados (WIP)
+### 3. Refatorando
 
-Martin Fowler:
+> _"Copilot, analise a função `validate_and_return_instance_data` e sugira o que pode ser refatorado."_
 
-> _“Refatorar é mudar a estrutura de um sistema sem mudar seu comportamento, para torná-lo mais fácil de entender e mais barato de modificar.”_
+Na primeira iteração pedi ao Copilot sugestões de refatoração passando a função `validate_and_return_instance_data`.
 
-- [Conceito de refatoração](1-conceito-refatoracao.md)
+#### Resposta:
 
-### 3.1 . Etapas da Refatoração (TODO)
+Aqui estão sugestões de refatoração para a função validate_and_return_instance_data:
 
-#### 3.2.1 Identificação de pontos críticos (TODO)
+1. **Quebrar a função em partes menores**
+   - A função executava diversas tarefas: validação de tipos, verificação de unicidade, geração de erros, etc.
+   - Separar essas responsabilidades melhora a clareza, manutenção e testabilidade.
 
-- Diagnóstico do código legado com prompts, ex:
-  - _"Liste funções muito longas nesta func"_
-- **Exemplo de prompt:** _"Copilot, identifique funcs com mais de xx linhas neste arquivo."_
+Após analisar a resposta do Copilot, iniciamos o processo pela primeira sugestão dada, separar a função em partes menores...
 
-#### 3.2.2 Geração de testes antes de alterar código
+> _"Copilot, quebre a função em partes menores..."_
 
-#### 3.2.3 Refatoração incremental (TODO)
+**Resposta:**
 
-- Dividir funções longas e reorganizar responsabilidades:
-
-#### 3.2.4 Remoção de duplicações (TODO)
-
-- Detectar e eliminar redundâncias
-
-### 3.3 Exemplos de prompts para diagnóstico
-
-## 4. Exemplos de código(WIP)
-
-A pasta [`codigo-legado/`](./codigo-legado) contém trechos de código legado usados como base para este estudo.
-Esses exemplos foram selecionados para demonstrar práticas de refatoração, como modularização, remoção de duplicações e legibilidade, utilizando LLMs como o Copilot Agent.
-
-- [exemplos.py](https://github.com/derliaparecida/refact-agile/blob/main/docs/codigo-legado/exemplos.py): Função antes de refatorar.
-
-**Como executar/testar:**
-
-- Pré-requisitos: Python 3.10+, VS Code, extensão Copilot Agent.
-- Instale dependências: `pip install -r requirements.txt`
-- Execute os testes: `pytest`
+> Vou quebrar a função `validate_and_return_instance_data` em partes menores para melhorar a legibilidade e manutenção. A abordagem será:
+>
+> - Uma função principal que orquestra o fluxo geral
+> - Uma função para validar um predicado (propriedade)
+> - Uma função para verificar propriedades obrigatórias
+> - Uma função para gerar mensagens de erro
 
 ---
 
-## 5. Boas Práticas no Uso de LLMs (TODO)
+#### 🛠 Aplicação prática (`exemplos.py`)
+
+A refatoração foi implementada no arquivo `exemplos.py`. A função foi dividida nas seguintes partes:
+
+- `**_validate_predicate**`: responsável por validar individualmente cada predicado.
+- `**_validate_obligatory_properties**`: verifica a presença de propriedades obrigatórias.
+- A função principal passou a apenas coordenar essas funções auxiliares.
+
+```python
+# Antes:
+async def validate_and_return_instance_data(
+    instance_uri, instance_data, class_object, graph_uri, query_params
+):
+    class_id = class_object["id"]
+    copy_instance_data = instance_data.copy()
+    predicate_object_tuples = unpack_tuples(copy_instance_data)
+
+    errors = []
+    template_msg = _(
+        "Incorrect value for property ({1}). A value compatible with a ({2}) was expected, but ({0}) was given."
+    )
+
+    for predicate_uri, object_value in predicate_object_tuples:
+        if not is_reserved_attribute(predicate_uri):
+            predicate_has_error = False
+            try:
+                predicate_datatype = get_predicate_datatype(class_object, predicate_uri)
+            except KeyError:
+                template = _(
+                    "Inexistent property ({0}) in the schema ({1}), used to create instance ({2})"
+                )
+                msg = template.format(predicate_uri, class_id, instance_uri)
+                errors.append(msg)
+                predicate_datatype = None
+                predicate_has_error = True
+            else:
+                if predicate_datatype is None:
+                    try:
+                        object_ = sparqlfy_object(object_value)
+                    except InstanceError:
+                        msg = template_msg.format(
+                            object_value, predicate_uri, "owl:ObjectProperty"
+                        )
+                        errors.append(msg)
+                        predicate_has_error = True
+                else:
+                    if is_instance(object_value, predicate_datatype):
+                        object_ = sparqlfy(object_value, predicate_datatype)
+                    else:
+                        msg = template_msg.format(
+                            object_value, predicate_uri, predicate_datatype
+                        )
+                        errors.append(msg)
+                        predicate_has_error = True
+                if not predicate_has_error:
+                    if property_must_map_a_unique_value(class_object, predicate_uri):
+                        if await is_value_already_used(
+                            instance_uri,
+                            object_,
+                            predicate_uri,
+                            class_object,
+                            graph_uri,
+                            query_params,
+                        ):
+                            template = _(
+                                "The property ({0}) defined in the schema ({1}) must map a unique value. The value provided ({2}) is already used by another instance."
+                            )
+                            msg = template.format(predicate_uri, class_id, object_value)
+                            errors.append(msg)
+
+    undefined_obligatory_properties = find_undefined_obligatory_properties(class_object, instance_data)
+    template = _(
+        "The property ({0}) is obligatory according to the definition of the class ({1}). A value must be provided for this field in order to create or edit ({2})."
+    )
+    for property_ in undefined_obligatory_properties:
+        msg = template.format(property_, class_id, instance_uri)
+        errors.append(msg)
+
+    if errors:
+        error_msg = json.dumps(errors)
+        raise InstanceError(error_msg)
+    return instance_data
+```
+
+Após a primeira iteração, a função foi divida em funçoes menores, `validate_predicate`: valida cada predicado individualmente.
+`validate_obligatory_properties`: verifica propriedades obrigatórias. Assim a função princiapl fica com menos responsabildiade. Após essa iteração rodamos os testes para garantir que tudo continua funcionando e vamos reavalir a mesma funcao, para ver o que mais pode ser melhorado.
+
+### Renomear funçoes e variáveis
+
+Um passo simples de executar é renomear funçoes e variáveis, vamos tentar.
+
+> _"Copilot, refatore a funções adicionando nomes mais descritivos." _
+
+**Resposta:**
+
+A função foi refatorada com nomes mais descritivos:
+Parâmetros e variáveis como property_uri, property_value, class_schema, validated_value, unique_value_checks.
+Funções auxiliares agora são `validate_property` e `validate_required_properties`.
+Adicionados type hints e docstring à função principal.
+
+### Adicinar mais testes
+
+> _"Copilot, adicione mais testes para cobrir as funcionalidades da função: validate_and_return_instance_data ..." _
+
+**Resposta:**
+
+Testes complementares foram implementados em test_exemplos.py para cobrir:
+
+Propriedade que deve ser única e já está em uso.
+Propriedade obrigatória ausente.
+Propriedade inexistente no schema.
+Todos os tipos suportados (boolean, integer, string, string_uri, array_string_uri).
+
+### Função refatorada
+
+```python
+# Depois:
+  async def validate_and_return_instance_data(
+      instance_uri, instance_data, class_object, graph_uri, query_params
+  ): ...
+
+```
+
+### 6. Limitações do modelo
 
 ---
 
-## 6. Limitações e Cuidados (TODO)
-
----
-
-## 7. Reprodutibilidade e Ambiente
-
-- Ambiente sugerido: VS Code + Copilot Agent
-- Como instalar dependências:
-  - `pip install -r requirements.txt`
-- Como rodar exemplos:
-  - `python refactoring/exemplos.py`
-- Como contribuir:
-  - Fork, branch, pull request
-
----
-
-## 8. Referências (WIP)
+### 8. Referências
 
 - [Refactoring.com (Martin Fowler)](https://refactoring.com/)
 - [Documentação oficial do Copilot Agent](https://docs.github.com/en/copilot)
 - [Coding agent](https://github.blog/news-insights/product-news/github-copilot-meet-the-new-coding-agent/)
-- Exemplos no GitHub:
-  - [Copilot Agent Playground](https://github.com/github/copilot-agent)
-- Artigos acadêmicos:
+
+- Artigos:
   - [Refactoring with Large Language Models (arXiv)](https://arxiv.org/abs/2305.00000)
