@@ -1,0 +1,26 @@
+Pull Up Constructor Body
+Inline Method
+Inline Temp
+Substitute Algorithm
+Replace Temp With Query
+Introduce Null Object
+Replace Parameter With Explicit Methods
+Replace Conditional With Polymorphism
+Decompose Conditional
+Replace Nested Conditional With Guard Clauses
+Introduce Assertion
+Consolidate Duplicate Conditional Fragments
+Remove Assignments To Parameters
+Consolidate Conditional Expression
+Replace Magic Number With Symbolic Constant
+Extract Class
+Introduce Foreign Method
+Extract Method
+Replace Error Code With Exception
+Replace Array With Object
+Preserve Whole Object
+Replace Exception With Test
+Replace Method With Method Object
+Extract Variable
+Replace Parameter With Method Call
+Split Temporary Variable
