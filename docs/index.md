@@ -7,11 +7,10 @@ Este material foi produzido como parte da disciplina de Metodologias Ágeis, com
 ## Sumário
 
 1. [Sobre Refatoração](#1-sobre-refatoração)
-2. [Processo de Refatoração](#2-processo-de-refatoracao)
-3. [Boas Práticas no Uso de LLMs](#3-boas-práticas-no-uso-de-llms)
-4. [Limitações e Cuidados](#4-limitações-e-cuidados)
-5. [Reproduzibilidade e Ambiente](#5-reproduzibilidade-e-ambiente)
-6. [Referências](#6-referências)
+2. [Processo de Refatoração](#2-processo-de-refatoração)
+3. [Resultados](#3-resultados)
+4. [Conclusão](#4-conclusão)
+5. [Referências](#6-referências)
 
 ---
 
@@ -117,7 +116,9 @@ class Bird:
 
 A refatoração gerada pelo GitHub Copilot é bastante similar com o código `python-after`, de forma geral, o copilot aplicoua técnica substituindo a estrutura condicional por classes.
 
-### 8. Referências
+### 4. Conclusão
+
+### 6. Referências
 
 - [Refactoring.com (Martin Fowler)](https://refactoring.com/)
 - [Documentação oficial do Copilot Agent](https://docs.github.com/en/copilot)
