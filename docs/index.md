@@ -1,28 +1,17 @@
-# Refatoração com github copilot
+# Refatoração com github copilot agent
 
-Refatorar código legado pode ser uma tarefa desafiadora. Neste artigo, vamos explorar como ferramentas de IA, como o GitHub Copilot, podem ajudar nesse processo. Este material foi produzido como parte da disciplina de Metodologias Ágeis, com o objetivo de explorar o uso de LLMs na refatoração de sistemas legados.
-
----
+Refatorar é uma técnica utilizada para reestruturar o código sem modificar seu comportamento. A essência da refatoração está na realização de pequenas transformações incrementais. Cada alteração deve ser pequena, para minimizar o risco de alterar o comportamento padrão do software. Ao refatorar gradualmente, é possível promover a reestruturação de um sistema. O ideal é que o software refatorado permaneça com o mesmo comportamento após cada iteração. Este tipo de ação reduz a chance de bugs e melhora o código existente, sem danos e sem a necessidade de planejamenos e etc. Considerando algumas técnicas de refatoraçnao descritas no livro [Refatoração](https://refactoring.com/) vamos analisar como o GitHub Copilot Agent pode nos apoiar nesse processo. Este material foi desenvolvido como parte da disciplina de Metodologias Ágeis, com o intuito de testar o uso de LLMs na refatoração de sistemas legados. O conteúdo se baseia nos conceitos do livro Refactoring, de Martin Fowler, aplicados na prática com o Copilot Agent.
 
 ## Sumário
 
-1. [Sobre Refatoração](#1-sobre-refatoração)
-2. [Processo de Refatoração](#2-processo-de-refatoração)
-3. [Resultados](#3-resultados)
-4. [Considerações](#4-considerações)
-5. [Referências](#6-referências)
+1. [Processo de Refatoração](#1-processo-de-refatoração)
+2. [Resultados](#2-resultados)
+3. [Considerações](#3-considerações)
+4. [Referências](#4-referências)
 
 ---
 
-## 1. Sobre Refatoração
-
-Sistemas legados geralmente apresentam alta complexidade, ausência de testes automatizados e o uso de ferramentas obsoletas. A refatoração é uma prática fundamental para entender e evoluir esses sistemas. No entanto, a falta de cobertura de testes torna esse processo ainda mais desafiador.
-
-Embora a solução ideal seja adicionar testes, isso nem sempre é viável, principalmente quando o sistema original não foi projetado para ser testável. Este trabalho propõe combinar a prática de refatoração com o uso de LLMs, mais especificamente o GitHub Copilot Agent, como ferramenta de apoio à modernização de software legado. A abordagem segue os princípios do livro [_Refactoring_](https://refactoring.com/) de Martin Fowler.
-
----
-
-## 2. Processo de Refatoração
+## 1. Processo de Refatoração
 
 Selecionamos funções do repositório [_RefactoringGuru_](https://github.com/RefactoringGuru/refactoring-examples/tree/main/simple/python) para aplicar diferentes técnicas de refatoração. O processo adotado foi o seguinte:
 
@@ -41,13 +30,13 @@ Selecionamos funções do repositório [_RefactoringGuru_](https://github.com/Re
      > _“Read each file under the folder 'codigos/python-before'. For each file you will generate a new file with suffix '\_copilot' with a refactoring suggestion. The refactoring must be one listed in the file 'refatoracoes_possiveis.txt'. You should write the refactoring name as a comment on the first line of the generated file.”_
 
 4. **Comparação com código de referência**  
-   Os resultados gerados pelo Copilot foram comparados com versões refatoradas manualmente, armazenadas em `python_plus_after`.
+   Os resultados gerados pelo Copilot foram comparados com versões refatoradas manualmente, [conferir aqui](https://github.com/RefactoringGuru/refactoring-examples/tree/main/simple/python).
 
-## 3. Resultados:
+## 2. Resultados
 
-#### Técnica: Split Temporary Variable
+**Problema: reuso de variáveis temporárias:**
 
-A técnica dividir variável temporária consiste em substituir uma variável temporária reutilizada para guardar valores diferentes no mesmo método. Veja o exemplo abaixo:
+No exemplo abaixo, a variável `temp` é usada para armazenar dois valores diferentes: o perímetro e área. Em um sistema maior, esse tipo de reutilização pode causar diversos problemas. O uso de um nome genérico dificulta a compreensão do propósito da variável, especialmente quando ela assume valores distintos ao longo do código. Isso também atrapalha o processo de depuração, pois torna mais difícil entender qual valor está sendo manipulado em cada ponto. Além disso, há o risco de sobrescrever um valor que ainda seria necessário. Esse padrão compromete a legibilidade e a manutenção do código, além de violar o princípio de que cada variável deve ter um único propósito.
 
 **Código original:**
 
@@ -58,8 +47,9 @@ A técnica dividir variável temporária consiste em substituir uma variável te
     print(temp)
 ```
 
-A variável `temp` está sendo utilizada para armazenar dois valores distintos: o perímetro e a área.
-Aqui queremos evitar reuso da mesma varável, para evitar confusão e mlehorar legibilidade do código. Veja abaixo:
+#### Técnica: Split Temporary Variable
+
+para o cenário acima a técnica aplicada pelo copilot foi Split Temporary Variable, evitando reuso e melhorando legibilidade do código. Veja abaixo:
 
 **Código refatorado:**
 
@@ -71,11 +61,11 @@ Aqui queremos evitar reuso da mesma varável, para evitar confusão e mlehorar l
     print(area)
 ```
 
-#### Técnica: Replace Conditional With Polymorphism
+Neste exemplo, o copilot apresentou um desempenho preciso na refatoraçnao, sua sugestão é a mesma abordagem recomendada pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/split-temporary-variable_after.py) para a técnica Split Temporary Variable. A substituição da variável genérica `temp` por variáveis com nomes específicos, como `perimeter` e `area`, torna o código mais claro, e aderente às boas práticas de legibilidade e manutenção. Isso demonstra que, para refatorações pontuais e bem definidas, o copilot pode ser um bom apoio na aplicação de padrões reconhecidos.
 
-A técnica _Replace Conditional With Polymorphism_ consiste em substituir estruturas condicionais, como `if` ou `else` por chamadas polimórficas, delegando o comportamento específico para subclasses. Isso melhora a legibilidade e facilita a extensão do código.
+**Problema: estruturas aninhadas:**
 
-O código abaixo utiliza condicionais e centraliza mais de uam responsabilidade:
+No cenário abaixo temos uma funcão com várias condicionais `if/elif` que tratam diferentes comportamentos de acordo com o tipo de `Bird`, e quais são os problemas? manutenção, extensão do código, a aorganização do código em geral está confusa, e viola o princípio como o Open/Closed Principle (aberto para extensão, fechado para modificação), em cenários reais, quando mais casos são adicionados, o método cresce e se torna mais difícil de testar e compreender isoladamente.
 
 **Código original:**
 
@@ -91,6 +81,10 @@ class Bird:
         else:
             raise Exception("Should be unreachable")
 ```
+
+#### Técnica: Replace Conditional With Polymorphism
+
+A técnica _Replace Conditional With Polymorphism_ consiste em substituir estruturas condicionais, como `if/elif` por chamadas polimórficas, passando o comportamento específico para cada subclasse. Isso melhora a legibilidade e facilita a extensão do código.
 
 **Código refatorado:**
 
@@ -112,7 +106,7 @@ class Bird:
             return 0 if self.isNailed else self.getBaseSpeed(self.voltage)
 ```
 
----
+Ao aplicar Replace Conditional With Polymorphism, o copilot implementa a substituição de condicionais por subclasses específicas para cada tipo de objeto, respeitando os princípios da técnica, a refatoração ficou muito próxima da inidcada pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-conditional-with-polymorphism_after.py) .
 
 #### Técnica: Substitute Algorithm em um código real e legado
 
@@ -167,24 +161,21 @@ def validate_instance_properties_type(instance, props_type):
 
 ```
 
+Na refatoração da função **validate_instance_properties_type**, o copilot substituiu um conjunto de estruturas `if-elif` por um dicionário que mapeia tipos e faz conversão. Essa mudança aplica a técnica **Substitute Algorithm**, isolando a lógica de conversão por tipo e deixa o código mais claro.
+
+Além de melhorar a legibilidade, essa abordagem reduz a possibilidade de duplicação de lógica e facilita a manutenção: caso seja necessário adicionar um novo tipo, basta incluir no dicionário, sem alterar a estrutura principal da função.
+
 ### 4. Considerações
 
-Na refatoração da função validate\*instance_properties_type, substituímos um conjunto de estruturas if-elif por um dicionário que mapeia tipos e faz conversão. Essa mudança aplica a técnica **Substitute Algorithm**, isolando a lógica de conversão por tipo e deixa o código mais claro.
+Ao fazer a mesma análise a todas as técnicas da lista `refatoracoes_possiveis.txt`, o copilot demonstrou um bom desempenho na refatoração. Na tabela:`copilot_x_especialista.xlsx` comparamos a refatoração feita pelo copilot x refatoração manual.
 
-Além de melhorar a legibilidade, essa abordagem reduz a possibilidade de duplicação de lógica e facilita a manutenção: caso seja necessário adicionar um novo tipo, basta incluir uma nova entrada no dicionário, sem alterar a estrutura principal da função.
+As divergências entre o copilot e a refatoração manual concentram-se na interpretação da intenção da refatoração: enquanto a refatoração manual busca mostrar a técnica com base no conceito — sem garantir a completude do código —, o copilot fez ajustes para que o código fosse funcional. Por exemplo, o copilot interpretou a ausência de um `return` como um erro e inseriu a correção (mostrar técnica). Além da aplicação da técnica, o modelo introduziu pequenas modificações adicionais para tornar o código executável.
 
-Na técnica Remove Assignments To Parameters a refatoração gerada pelo Copilot adicionou o `return result` no final da função, a versão manual não tem essa instrução por se tratar de um exemplo.
-
-Na técnica Extract Method ambas abordagens extraíram um método auxiliar chamado `printDetails`. No entanto, a versão manual passa o valor `outstanding` como parâmetro para o novo método. o Copilot manteve a dependência da classe, acessando diretamente `self.getOutstanding()` ?? analisar a vantagem...
-
-Ao aplicar Replace Conditional With Polymorphism, o Copilot implementa a substituição de condicionais por subclasses específicas para cada tipo de objeto, respeitando os princípios da técnica, a refatoração ficou muito próxima da refatoração manuial.
-
-De modo geral o Copilot apresentou bom desempenho na aplicação das técnicas. Os exemplos acima demonstram que o Copilot é capaz de aplicar refatorações corretamente, em cenários reais a revisão é um processo necessário para garantir boas práticas e para manter o código funcionanado....
+De modo geral o copilot apresentou bom desempenho na aplicação das técnicas. Os exemplos acima demonstram que o copilot é capaz de aplicar refatorações corretamente. Em cenários reais, é necessário o processo de revisnao do código gerado para garantir boas práticas e para manter o código funcionanado....
 
 ### 6. Referências
 
 - [Refactoring.com (Martin Fowler)](https://refactoring.com/)
 - [Documentação oficial do Copilot Agent](https://docs.github.com/en/copilot)
 - [Coding agent](https://github.blog/news-insights/product-news/github-copilot-meet-the-new-coding-agent/)
-
 - [Refactoring with Large Language Models (arXiv)](https://arxiv.org/abs/2305.00000)
