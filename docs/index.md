@@ -1,6 +1,16 @@
-# Refatoração com github copilot agent
+# Refatorando com github copilot agent
 
-Refatorar é uma técnica utilizada para reestruturar o código sem modificar seu comportamento. A essência da refatoração está na realização de pequenas transformações incrementais. Cada alteração deve ser pequena, para minimizar o risco de alterar o comportamento padrão do software. Ao refatorar gradualmente, é possível promover a reestruturação de um sistema. O ideal é que o software refatorado permaneça com o mesmo comportamento após cada iteração. Este tipo de ação reduz a chance de bugs e melhora o código existente, sem danos e sem a necessidade de planejamenos e etc. Considerando algumas técnicas de refatoraçnao descritas no livro [Refatoração](https://refactoring.com/) vamos analisar como o GitHub Copilot Agent pode nos apoiar nesse processo. Este material foi desenvolvido como parte da disciplina de Metodologias Ágeis, com o intuito de testar o uso de LLMs na refatoração de sistemas legados. O conteúdo se baseia nos conceitos do livro Refactoring, de Martin Fowler, aplicados na prática com o Copilot Agent.
+> copilot agent , uma ferramenta para automatizar tarefas repetitivas no desenvolvimento de software.
+
+Existem diversas maneiras de usar o copilot, uma das mais comuns é o autocompletar, --utilizo há algum tempo e recomendo, só preste atenção ele pode recomendar alguns códigos estranhos--. Apesar disso, o autocomplete é bastante eficiente para tarefas repetitivas,como geração de logs e testes unitários, especialmente quando sabemos o que deve ser implementado.
+
+Outra forma interessante de uso é por meio de comentários com pequenas dicas, como o nome de um método ou um TODO. Nessas situações, o copilot faz sugestões bastante úteis.
+
+Esses são exemplos de usos mais recorrentes no dia a dia. Agora queremos explorar um desafio maior e mais estruturado: a refatoração de código.
+
+Refatorar é uma técnica utilizada para reestruturar o código, sem modificar seu comportamento. A essência da refatoração é realizar pequenas transformações incrementais, o ideal é que o software refatorado permaneça com o mesmo comportamento após cada iteração.
+
+Considerando as técnicas de refatoração descritas no livro [Refatoração](https://refactoring.com/) vamos analisar como o GitHub Copilot Agent pode nos ajudar nesse processo.
 
 ## Sumário
 
