@@ -4,14 +4,14 @@ Refatorar é uma técnica utilizada para reestruturar o código sem modificar se
 
 ## Sumário
 
-1. [Processo de Refatoração](#1-processo-de-refatoração)
+1. [Refatorando](#1-refatorando)
 2. [Resultados](#2-resultados)
-3. [Considerações](#3-considerações)
+3. [Conclusão](#3-conclusão)
 4. [Referências](#4-referências)
 
 ---
 
-## 1. Processo de Refatoração
+## 1. Refatorando
 
 Selecionamos funções do repositório [_RefactoringGuru_](https://github.com/RefactoringGuru/refactoring-examples/tree/main/simple/python) para aplicar diferentes técnicas de refatoração. O processo adotado foi o seguinte:
 
@@ -165,7 +165,7 @@ Na refatoração da função **validate_instance_properties_type**, o copilot su
 
 Além de melhorar a legibilidade, essa abordagem reduz a possibilidade de duplicação de lógica e facilita a manutenção: caso seja necessário adicionar um novo tipo, basta incluir no dicionário, sem alterar a estrutura principal da função.
 
-### 4. Considerações
+## 3. Conclusão
 
 Ao fazer a mesma análise a todas as técnicas da lista `refatoracoes_possiveis.txt`, o copilot demonstrou um bom desempenho na refatoração. Na tabela:`copilot_x_especialista.xlsx` comparamos a refatoração feita pelo copilot x refatoração manual.
 
@@ -173,9 +173,12 @@ As divergências entre o copilot e a refatoração manual concentram-se na inter
 
 De modo geral o copilot apresentou bom desempenho na aplicação das técnicas. Os exemplos acima demonstram que o copilot é capaz de aplicar refatorações corretamente. Em cenários reais, é necessário o processo de revisnao do código gerado para garantir boas práticas e para manter o código funcionanado....
 
-### 6. Referências
+## 4. Referências
 
 - [Refactoring.com (Martin Fowler)](https://refactoring.com/)
-- [Documentação oficial do Copilot Agent](https://docs.github.com/en/copilot)
-- [Coding agent](https://github.blog/news-insights/product-news/github-copilot-meet-the-new-coding-agent/)
-- [Refactoring with Large Language Models (arXiv)](https://arxiv.org/abs/2305.00000)
+- [Copilot Agent](https://docs.github.com/en/copilot)
+
+- [AI-Driven Code Optimization](https://najer.org/najer/article/view/115/121)
+- [Leveraging LLMs for Legacy Code Modernization](https://arxiv.org/abs/2411.14971)
+- [An Empirical Study on the Potential of LLMs in Automated Software Refactoring](https://arxiv.org/abs/2411.04444)
+- [Using Large Language Models to Re-Engineer a Legacy System](https://ieeexplore.ieee.org/abstract/document/10992377)
