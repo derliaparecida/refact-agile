@@ -2,6 +2,4 @@
 
 🚀 **Acesse o guia aqui:** [https://derliaparecida.github.io/refact-agile/](https://derliaparecida.github.io/refact-agile/)
 
-> > Este repositório contém uma análise sobre o uso de LLMs para refatoração de sistemas legados,
-> > vamos explorar na prática o GitHub Copilot Agent.
-> > O objetivo é avaliar a eficiência e as limitações dessa abordagem no contexto de modernização de software.
+> > Este material foi desenvolvido como parte da disciplina de Metodologias Ágeis, com o intuito de testar o uso de LLMs na refatoração de sistemas legados. O conteúdo se baseia nos conceitos do livro Refactoring, de Martin Fowler, aplicados na prática com o Copilot Agent.
