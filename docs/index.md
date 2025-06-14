@@ -207,6 +207,34 @@ O copilot utilizou a técnica Replace Temp With Query, substituindo a variável 
 
 Apesar do copilot substituir corretamente a variável basePrice pela expressão lógica, falhou em encapsular essa lógica em um método que poderia ser reutilizado no código, como é indicado pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-temp-with-query_after.py). Isso mostra que o Copilot foi capaz de compreender o problema da variável temporária, mas não soube propor a melhor abstração para legibilidade e manutenção.
 
+**Problema: uso de número mágico no código:**
+
+No código original, a constante 9.81 aparece de forma "solta" dentro da fórmula de cálculo da energia potencial. Esse valor representa a aceleração gravitacional na Terra, mas como está escrito diretamente no cálculo, é conhecido como **número mágico** - um valo numérico usado sem contexto explícito. Esse tipo de prática prejudica a legibilidade, dificulta manutenção e reutilização desse valor além de reduz a clareza semântica do código.
+
+**Código original:**
+
+```python
+    def potentialEnergy(mass, height):
+        return mass * height * 9.81
+```
+
+#### Técnica: Replace Magic Number With Symbolic Constant
+
+O Copilot utilizou a técnica Replace Magic Number With Symbolic Constant, atrelando o valor da aceleração gravitacional na Terra à variável GRAVITY.
+
+**Código refatorado:**
+
+```python
+    # Replace Magic Number With Symbolic Constant
+    GRAVITY = 9.81
+
+
+    def potentialEnergy(mass, height):
+        return mass * height * GRAVITY
+```
+
+O Copilot foi capaz de aplicar corretamente a técnica Replace Magic Number With Symbolic Constant e seu código difere do proposto pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-magic-number-with-symbolic-constant_after.py). apenas no nome da variável, enquanto o primeiro utilizou o nome GRAVITATIONAL_CONSTANT, o Copilot escolheu GRAVITY, sendo que ambos são válidos e descritivos do valor armazenado.
+
 ## 3. Conclusão
 
 Ao fazer a mesma análise a todas as técnicas da lista `refatoracoes_possiveis.txt`, o copilot demonstrou um bom desempenho na refatoração. Na tabela:`copilot_x_especialista.xlsx` comparamos a refatoração feita pelo copilot x refatoração manual.
