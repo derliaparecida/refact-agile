@@ -71,7 +71,7 @@ para o cenário acima a técnica aplicada pelo copilot foi Split Temporary Varia
     print(area)
 ```
 
-Neste exemplo, o copilot apresentou um desempenho preciso na refatoraçnao, sua sugestão é a mesma abordagem recomendada pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/split-temporary-variable_after.py) para a técnica Split Temporary Variable. A substituição da variável genérica `temp` por variáveis com nomes específicos, como `perimeter` e `area`, torna o código mais claro, e aderente às boas práticas de legibilidade e manutenção. Isso demonstra que, para refatorações pontuais e bem definidas, o copilot pode ser um bom apoio na aplicação de padrões reconhecidos.
+Neste exemplo, o copilot apresentou um desempenho preciso na refatoração, sua sugestão é a mesma abordagem recomendada pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/split-temporary-variable_after.py) para a técnica Split Temporary Variable. A substituição da variável genérica `temp` por variáveis com nomes específicos, como `perimeter` e `area`, torna o código mais claro, e aderente às boas práticas de legibilidade e manutenção. Isso demonstra que, para refatorações pontuais e bem definidas, o copilot pode ser um bom apoio na aplicação de padrões reconhecidos.
 
 **Problema: estruturas aninhadas:**
 
@@ -116,7 +116,7 @@ A técnica _Replace Conditional With Polymorphism_ consiste em substituir estrut
             return 0 if self.isNailed else self.getBaseSpeed(self.voltage)
 ```
 
-Ao aplicar Replace Conditional With Polymorphism, o copilot implementa a substituição de condicionais por subclasses específicas para cada tipo de objeto, respeitando os princípios da técnica, a refatoração ficou muito próxima da inidcada pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-conditional-with-polymorphism_after.py) .
+Ao aplicar Replace Conditional With Polymorphism, o copilot implementa a substituição de condicionais por subclasses específicas para cada tipo de objeto, respeitando os princípios da técnica, a refatoração ficou muito próxima da indicada pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-conditional-with-polymorphism_after.py) .
 
 #### Técnica: Substitute Algorithm em um código real e legado
 
@@ -174,6 +174,38 @@ def validate_instance_properties_type(instance, props_type):
 Na refatoração da função **validate_instance_properties_type**, o copilot substituiu um conjunto de estruturas `if-elif` por um dicionário que mapeia tipos e faz conversão. Essa mudança aplica a técnica **Substitute Algorithm**, isolando a lógica de conversão por tipo e deixa o código mais claro.
 
 Além de melhorar a legibilidade, essa abordagem reduz a possibilidade de duplicação de lógica e facilita a manutenção: caso seja necessário adicionar um novo tipo, basta incluir no dicionário, sem alterar a estrutura principal da função.
+
+**Problema: uso desnecessário de variável temporária:**
+
+No código original, a função calculateTotal utiliza uma variável temporária chamada basePrice apenas para armazenar o resultado de uma expressão que poderia ser calculada diretamente (quantity * itemPrice). Esse uso é redundante e pode ser substituído por uma query que encapsula a lógica, melhorando a clareza e a coesão do código.
+
+**Código original:**
+
+```python
+    def calculateTotal():
+        basePrice = quantity * itemPrice
+        if basePrice > 1000:
+            return basePrice * 0.95
+        else:
+            return basePrice * 0.98
+```
+
+#### Técnica: Replace Temp With Query
+
+O copilot utilizou a técnica Replace Temp With Query, substituindo a variável basePrice diretamente pela expressão lógica.
+
+**Código refatorado:**
+
+```python
+    # Replace Temp With Query
+    def calculateTotal():
+        if quantity * itemPrice > 1000:
+            return quantity * itemPrice * 0.95
+        else:
+            return quantity * itemPrice * 0.98
+```
+
+Apesar do copilot substituir corretamente a variável basePrice pela expressão lógica, falhou em encapsular essa lógica em um método que poderia ser reutilizado no código, como é indicado pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-temp-with-query_after.py). Isso mostra que o Copilot foi capaz de compreender o problema da variável temporária, mas não soube propor a melhor abstração para legibilidade e manutenção.
 
 ## 3. Conclusão
 
