@@ -233,7 +233,43 @@ O Copilot utilizou a técnica Replace Magic Number With Symbolic Constant, atrel
         return mass * height * GRAVITY
 ```
 
-O Copilot foi capaz de aplicar corretamente a técnica Replace Magic Number With Symbolic Constant e seu código difere do proposto pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-magic-number-with-symbolic-constant_after.py). apenas no nome da variável, enquanto o primeiro utilizou o nome GRAVITATIONAL_CONSTANT, o Copilot escolheu GRAVITY, sendo que ambos são válidos e descritivos do valor armazenado.
+O Copilot foi capaz de aplicar corretamente a técnica Replace Magic Number With Symbolic Constant e seu código difere do proposto pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-magic-number-with-symbolic-constant_after.py) apenas no nome da variável, enquanto o primeiro utilizou o nome GRAVITATIONAL_CONSTANT, o Copilot escolheu GRAVITY, sendo que ambos são válidos e descritivos do valor armazenado.
+
+**Problema: bloco de código que mistura responsabilidades:**
+
+No código original, o método printOwing realiza duas tarefas: exibe um banner e imprime os detalhes do cliente (nome e valor devido). Esse tipo de método com múltiplas responsabilidades prejudica a legibilidade e dificulta testes e manutenção.
+
+**Código original:**
+
+```python
+    def printOwing(self):
+        self.printBanner()
+
+        # print details
+        print("name:", self.name)
+        print("amount:", self.getOutstanding())
+```
+
+#### Técnica: Extract Method
+
+O Copilot aplicou a técnica Extract Method, encapsulando os prints em um novo método printDetails.
+
+**Código refatorado:**
+
+```python
+    # Extract Method
+    def printOwing(self):
+        self.printBanner()
+        self.printDetails()
+
+
+    def printDetails(self):
+        print("name:", self.name)
+        print("amount:", self.getOutstanding())
+```
+
+O Copilot aplicou corretamente a técnica Extract Method mas seu código difere do proposto pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/extract-method_after.py), pois enquanto o Guru extraiu o valor retornado por getOutstanding() passando como argumento para printDetails, o Copilot manteve o cálculo dentro do novo método, o que reduz a flexibilidade e dificulta o resuo do método extraído. Ainda assim o Copilot demonstrou boa capacidade em detectar e isolar responsabilidades.
+
 
 ## 3. Conclusão
 
