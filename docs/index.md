@@ -75,7 +75,7 @@ Neste exemplo, o copilot apresentou um desempenho preciso na refatoração, sua 
 
 **Problema: estruturas aninhadas:**
 
-No cenário abaixo temos uma funcão com várias condicionais `if/elif` que tratam diferentes comportamentos de acordo com o tipo de `Bird`, e quais são os problemas? manutenção, extensão do código, a aorganização do código em geral está confusa, e viola o princípio como o Open/Closed Principle (aberto para extensão, fechado para modificação), em cenários reais, quando mais casos são adicionados, o método cresce e se torna mais difícil de testar e compreender isoladamente.
+No cenário abaixo temos uma funcão com várias condicionais `if/elif` que tratam diferentes comportamentos de acordo com o tipo de `Bird`, e quais são os problemas? manutenção, extensão do código, a organização do código em geral está confusa, e viola o princípio como o Open/Closed Principle (aberto para extensão, fechado para modificação), em cenários reais, quando mais casos são adicionados, o método cresce e se torna mais difícil de testar e compreender isoladamente.
 
 **Código original:**
 
@@ -122,7 +122,7 @@ Ao aplicar Replace Conditional With Polymorphism, o copilot implementa a substit
 
 Para explorar a capacidade do modelo em contextos reais, aplicamos a técnica **Substitute Algorithm** a uma função de um sistema legado [BrainiakAPI](https://github.com/bmentges/brainiak_api) que trata da validação de tipos de propriedades de uma instância. O código original apresenta muitos blocos `if/elif` que verifica o tipo de cada propriedade.
 
-Estruturas condicionais tornam o código repetitivo e aumentam a complexidade da função. Com a técnica **Substitute Algorithm**, vamos tentar melhorar a estrtura.
+Estruturas condicionais tornam o código repetitivo e aumentam a complexidade da função. Com a técnica **Substitute Algorithm**, vamos tentar melhorar a estrutura.
 
 Função original:
 
@@ -277,7 +277,7 @@ Ao fazer a mesma análise a todas as técnicas da lista `refatoracoes_possiveis.
 
 As divergências entre o copilot e a refatoração manual concentram-se na interpretação da intenção da refatoração: enquanto a refatoração manual busca mostrar a técnica com base no conceito — sem garantir a completude do código —, o copilot fez ajustes para que o código fosse funcional. Por exemplo, o copilot interpretou a ausência de um `return` como um erro e inseriu a correção (mostrar técnica). Além da aplicação da técnica, o modelo introduziu pequenas modificações adicionais para tornar o código executável.
 
-De modo geral o copilot apresentou bom desempenho na aplicação das técnicas. Os exemplos acima demonstram que o copilot é capaz de aplicar refatorações corretamente. Em cenários reais, é necessário o processo de revisnao do código gerado para garantir boas práticas e para manter o código funcionanado....
+De modo geral o copilot apresentou bom desempenho na aplicação das técnicas. Os exemplos acima demonstram que o copilot é capaz de aplicar refatorações corretamente. Em cenários reais, é necessário o processo de revisão do código gerado para garantir boas práticas e para manter o código funcionando....
 
 ## 4. Referências
 
