@@ -1,4 +1,3 @@
-# Primeiro exemplo para refatorar
 import json
 
 
@@ -67,27 +66,27 @@ def format_response(instances, search_fields):
 
 # ex: 2
 # código original
-# def validate_instance_properties_type(instance, props_type):
-#     for k, v in instance.items():
-#         if k in props_type["properties"]:
-#             if props_type["properties"][k]["type"] == "array":
-#                 if not isinstance(v, list):
-#                     instance[k] = [v]
-#             elif props_type["properties"][k]["type"] == "string":
-#                 if not isinstance(v, str):
-#                     instance[k] = str(v)
-#             elif props_type["properties"][k]["type"] == "number":
-#                 if not isinstance(v, int):
-#                     instance[k] = int(v)
-#             elif props_type["properties"][k]["type"] == "boolean":
-#                 if not isinstance(v, bool):
-#                     instance[k] = bool(v)
+def validate_instance_properties_type(instance, props_type):
+    for k, v in instance.items():
+        if k in props_type["properties"]:
+            if props_type["properties"][k]["type"] == "array":
+                if not isinstance(v, list):
+                    instance[k] = [v]
+            elif props_type["properties"][k]["type"] == "string":
+                if not isinstance(v, str):
+                    instance[k] = str(v)
+            elif props_type["properties"][k]["type"] == "number":
+                if not isinstance(v, int):
+                    instance[k] = int(v)
+            elif props_type["properties"][k]["type"] == "boolean":
+                if not isinstance(v, bool):
+                    instance[k] = bool(v)
 
-#     return instance
+    return instance
 
 
 # código refatorado
-def validate_instance_properties_type(instance, props_type):
+def validate_instance_properties_type_ref(instance, props_type):
     type_converters = {
         "array": lambda v: v if isinstance(v, list) else [v],
         "string": lambda v: v if isinstance(v, str) else str(v),
