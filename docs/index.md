@@ -129,7 +129,6 @@ Ao aplicar Replace Conditional With Polymorphism, o copilot implementa a substit
 Para explorar a capacidade do copilot em contextos reais, utilizamos o [BrainiakAPI](https://github.com/bmentges/brainiak_api), mais especificamente, uma função que trata da validação de tipos de propriedades de uma instância. O código original apresenta muitos blocos `if/elif` que verifica o tipo de cada propriedade.
 
 Estruturas condicionais tornam o código repetitivo e aumentam a complexidade da função. Com a técnica **Substitute Algorithm**, vamos tentar melhorar a estrutura.
-Estruturas condicionais tornam o código repetitivo e aumentam a complexidade da função. Com a técnica **Substitute Algorithm**, vamos tentar melhorar a estrutura.
 
 **Código antes:**
 
@@ -185,40 +184,6 @@ def validate_instance_properties_type(instance, props_type):
 Na refatoração da função **validate_instance_properties_type**, o copilot substituiu um conjunto de estruturas `if-elif` por um dicionário que mapeia tipos e faz conversão. Essa mudança aplica a técnica **Substitute Algorithm**, isolando a lógica de conversão por tipo e deixa o código mais claro.
 
 Neste exemplo, a função é a mesma, mas a refatoração torna a estrutura do método muito mais clara. Agora é possível identificar as etapas de mapeamento de tipos, conversão e iteração sobre os valores, que contribui para uma leitura mais rápida e manutenção mais segura do código.
-
-### Refatorando multiplos arquivos com o Copilot Agent
-
-E para testar o agent, refatoramos um _handler_ responsável pela comunicação entre uma API e dois bancos de dados: Neptune e Elasticsearch, além de outras funcionalidades auxiliares.
-
-O objetivo da refatoração era eliminar a dependência do banco Neptune, mantendo apenas o Elasticsearch.
-
-![Processo da refatoração](assets/dead-code-01.png)
-
-[Créditos aqui](https://refactoring.guru/smells/dead-code)
-
-A primeira interação com o Copilot Agent foi:
-
-> **Refatore o `InstanceHandlerES` removendo a comunicação com Neptune.**
-
-Durante esse processo, o copilot analisou o arquivo e removeu as chamadas e importações relacionadas ao Neptune.
-
-![Processo da refatoração](assets/ex1.png)
-
-Depois de aceitar as sugestões, passamos um novo pedido:
-
-> **Revise todos os arquivos da pasta `brainiak` e remova as dependências do Neptune.**
-
-Esse segundo passo envolveu alterações em 14 arquivos diferentes. O copilot identificou e editou os pontos de dependência distribuídos no projeto.
-
-![Processo de remoção](assets/ex2.png)
-
-A refatoração resultou na remoção de uma grande quantidade de código, o que exigiu uma revisão cuidadosa. Como esperado, alguns testes falharam após as mudanças, e durante a análise, identificamos que ainda restavam algumas referências ao Neptune, o que exigiu instruções adicionais para fazer a remoção completa.
-
-![removendo coisas](assets/ref.png)
-
-[Créditos aqui](https://www.monkeyuser.com/tags/refactor/)
-
-Aqui vale destacar que as refatorações da API não foram aplicadas em produção. Elas foram feitas com o objetivo de avaliar a capacidade do copilot em lidar com mudanças estruturais em múltiplos arquivos. Apesar do sucesso da refatoração, seria necessário também atualizar os testes dos arquivos alterados para garantir que nenhum problema foi causado.
 
 **Problema: uso desnecessário de variável temporária:**
 
@@ -315,6 +280,39 @@ O Copilot aplicou a técnica Extract Method, encapsulando os prints em um novo m
 
 O Copilot aplicou corretamente a técnica Extract Method mas seu código difere do proposto pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/extract-method_after.py), pois enquanto o Guru extraiu o valor retornado por getOutstanding() passando como argumento para printDetails, o Copilot manteve o cálculo dentro do novo método, o que reduz a flexibilidade e dificulta o resuo do método extraído. Ainda assim o Copilot demonstrou boa capacidade em detectar e isolar responsabilidades.
 
+### Refatorando multiplos arquivos com o Copilot Agent
+
+E para testar o agent, refatoramos um _handler_ responsável pela comunicação entre uma API e dois bancos de dados: Neptune e Elasticsearch, além de outras funcionalidades auxiliares.
+
+O objetivo da refatoração era eliminar a dependência do banco Neptune, mantendo apenas o Elasticsearch.
+
+![Processo da refatoração](assets/dead-code-01.png)
+
+[Créditos aqui](https://refactoring.guru/smells/dead-code)
+
+A primeira interação com o Copilot Agent foi:
+
+> **Refatore o `InstanceHandlerES` removendo a comunicação com Neptune.**
+
+Durante esse processo, o copilot analisou o arquivo e removeu as chamadas e importações relacionadas ao Neptune.
+
+![Processo da refatoração](assets/ex1.png)
+
+Depois de aceitar as sugestões, passamos um novo pedido:
+
+> **Revise todos os arquivos da pasta `brainiak` e remova as dependências do Neptune.**
+
+Esse segundo passo envolveu alterações em 14 arquivos diferentes. O copilot identificou e editou os pontos de dependência distribuídos no projeto.
+
+![Processo de remoção](assets/ex2.png)
+
+A refatoração resultou na remoção de uma grande quantidade de código, o que exigiu uma revisão cuidadosa. Como esperado, alguns testes falharam após as mudanças, e durante a análise, identificamos que ainda restavam algumas referências ao Neptune, o que exigiu instruções adicionais para fazer a remoção completa.
+
+![removendo coisas](assets/ref.png)
+
+[Créditos aqui](https://www.monkeyuser.com/tags/refactor/)
+
+Aqui vale destacar que as refatorações da API não foram aplicadas em produção. Elas foram feitas com o objetivo de avaliar a capacidade do copilot em lidar com mudanças estruturais em múltiplos arquivos. Apesar do sucesso da refatoração, seria necessário também atualizar os testes dos arquivos alterados para garantir que nenhum problema foi causado.
 
 ## 3. Conclusão
 
