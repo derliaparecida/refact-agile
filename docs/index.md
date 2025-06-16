@@ -71,11 +71,11 @@ para o cenário acima a técnica aplicada pelo copilot foi Split Temporary Varia
     print(area)
 ```
 
-Neste exemplo, o copilot apresentou um desempenho preciso na refatoraçnao, sua sugestão é a mesma abordagem recomendada pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/split-temporary-variable_after.py) para a técnica Split Temporary Variable. A substituição da variável genérica `temp` por variáveis com nomes específicos, como `perimeter` e `area`, torna o código mais claro, e aderente às boas práticas de legibilidade e manutenção. Isso demonstra que, para refatorações pontuais e bem definidas, o copilot pode ser um bom apoio na aplicação de padrões reconhecidos.
+Neste exemplo, o copilot apresentou um desempenho preciso na refatoração, sua sugestão é a mesma abordagem recomendada pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/split-temporary-variable_after.py) para a técnica Split Temporary Variable. A substituição da variável genérica `temp` por variáveis com nomes específicos, como `perimeter` e `area`, torna o código mais claro, e aderente às boas práticas de legibilidade e manutenção. Isso demonstra que, para refatorações pontuais e bem definidas, o copilot pode ser um bom apoio na aplicação de padrões reconhecidos.
 
 **Problema: estruturas aninhadas:**
 
-No cenário abaixo temos uma funcão com várias condicionais `if/elif` que tratam diferentes comportamentos de acordo com o tipo de `Bird`, e quais são os problemas? manutenção, extensão do código, a aorganização do código em geral está confusa, e viola o princípio como o Open/Closed Principle (aberto para extensão, fechado para modificação), em cenários reais, quando mais casos são adicionados, o método cresce e se torna mais difícil de testar e compreender isoladamente.
+No cenário abaixo temos uma funcão com várias condicionais `if/elif` que tratam diferentes comportamentos de acordo com o tipo de `Bird`, e quais são os problemas? manutenção, extensão do código, a organização do código em geral está confusa, e viola o princípio como o Open/Closed Principle (aberto para extensão, fechado para modificação), em cenários reais, quando mais casos são adicionados, o método cresce e se torna mais difícil de testar e compreender isoladamente.
 
 **Código original:**
 
@@ -116,13 +116,13 @@ A técnica _Replace Conditional With Polymorphism_ consiste em substituir estrut
             return 0 if self.isNailed else self.getBaseSpeed(self.voltage)
 ```
 
-Ao aplicar Replace Conditional With Polymorphism, o copilot implementa a substituição de condicionais por subclasses específicas para cada tipo de objeto, respeitando os princípios da técnica, a refatoração ficou muito próxima da inidcada pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-conditional-with-polymorphism_after.py) .
+Ao aplicar Replace Conditional With Polymorphism, o copilot implementa a substituição de condicionais por subclasses específicas para cada tipo de objeto, respeitando os princípios da técnica, a refatoração ficou muito próxima da indicada pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-conditional-with-polymorphism_after.py) .
 
 #### Técnica: Substitute Algorithm em um código real e legado
 
 Para explorar a capacidade do modelo em contextos reais, aplicamos a técnica **Substitute Algorithm** a uma função de um sistema legado [BrainiakAPI](https://github.com/bmentges/brainiak_api) que trata da validação de tipos de propriedades de uma instância. O código original apresenta muitos blocos `if/elif` que verifica o tipo de cada propriedade.
 
-Estruturas condicionais tornam o código repetitivo e aumentam a complexidade da função. Com a técnica **Substitute Algorithm**, vamos tentar melhorar a estrtura.
+Estruturas condicionais tornam o código repetitivo e aumentam a complexidade da função. Com a técnica **Substitute Algorithm**, vamos tentar melhorar a estrutura.
 
 Função original:
 
@@ -175,13 +175,109 @@ Na refatoração da função **validate_instance_properties_type**, o copilot su
 
 Além de melhorar a legibilidade, essa abordagem reduz a possibilidade de duplicação de lógica e facilita a manutenção: caso seja necessário adicionar um novo tipo, basta incluir no dicionário, sem alterar a estrutura principal da função.
 
+**Problema: uso desnecessário de variável temporária:**
+
+No código original, a função calculateTotal utiliza uma variável temporária chamada basePrice apenas para armazenar o resultado de uma expressão que poderia ser calculada diretamente (quantity * itemPrice). Esse uso é redundante e pode ser substituído por uma query que encapsula a lógica, melhorando a clareza e a coesão do código.
+
+**Código original:**
+
+```python
+    def calculateTotal():
+        basePrice = quantity * itemPrice
+        if basePrice > 1000:
+            return basePrice * 0.95
+        else:
+            return basePrice * 0.98
+```
+
+#### Técnica: Replace Temp With Query
+
+O copilot utilizou a técnica Replace Temp With Query, substituindo a variável basePrice diretamente pela expressão lógica.
+
+**Código refatorado:**
+
+```python
+    # Replace Temp With Query
+    def calculateTotal():
+        if quantity * itemPrice > 1000:
+            return quantity * itemPrice * 0.95
+        else:
+            return quantity * itemPrice * 0.98
+```
+
+Apesar do copilot substituir corretamente a variável basePrice pela expressão lógica, falhou em encapsular essa lógica em um método que poderia ser reutilizado no código, como é indicado pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-temp-with-query_after.py). Isso mostra que o Copilot foi capaz de compreender o problema da variável temporária, mas não soube propor a melhor abstração para legibilidade e manutenção.
+
+**Problema: uso de número mágico no código:**
+
+No código original, a constante 9.81 aparece de forma "solta" dentro da fórmula de cálculo da energia potencial. Esse valor representa a aceleração gravitacional na Terra, mas como está escrito diretamente no cálculo, é conhecido como **número mágico** - um valo numérico usado sem contexto explícito. Esse tipo de prática prejudica a legibilidade, dificulta manutenção e reutilização desse valor além de reduz a clareza semântica do código.
+
+**Código original:**
+
+```python
+    def potentialEnergy(mass, height):
+        return mass * height * 9.81
+```
+
+#### Técnica: Replace Magic Number With Symbolic Constant
+
+O Copilot utilizou a técnica Replace Magic Number With Symbolic Constant, atrelando o valor da aceleração gravitacional na Terra à variável GRAVITY.
+
+**Código refatorado:**
+
+```python
+    # Replace Magic Number With Symbolic Constant
+    GRAVITY = 9.81
+
+
+    def potentialEnergy(mass, height):
+        return mass * height * GRAVITY
+```
+
+O Copilot foi capaz de aplicar corretamente a técnica Replace Magic Number With Symbolic Constant e seu código difere do proposto pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-magic-number-with-symbolic-constant_after.py) apenas no nome da variável, enquanto o primeiro utilizou o nome GRAVITATIONAL_CONSTANT, o Copilot escolheu GRAVITY, sendo que ambos são válidos e descritivos do valor armazenado.
+
+**Problema: bloco de código que mistura responsabilidades:**
+
+No código original, o método printOwing realiza duas tarefas: exibe um banner e imprime os detalhes do cliente (nome e valor devido). Esse tipo de método com múltiplas responsabilidades prejudica a legibilidade e dificulta testes e manutenção.
+
+**Código original:**
+
+```python
+    def printOwing(self):
+        self.printBanner()
+
+        # print details
+        print("name:", self.name)
+        print("amount:", self.getOutstanding())
+```
+
+#### Técnica: Extract Method
+
+O Copilot aplicou a técnica Extract Method, encapsulando os prints em um novo método printDetails.
+
+**Código refatorado:**
+
+```python
+    # Extract Method
+    def printOwing(self):
+        self.printBanner()
+        self.printDetails()
+
+
+    def printDetails(self):
+        print("name:", self.name)
+        print("amount:", self.getOutstanding())
+```
+
+O Copilot aplicou corretamente a técnica Extract Method mas seu código difere do proposto pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/extract-method_after.py), pois enquanto o Guru extraiu o valor retornado por getOutstanding() passando como argumento para printDetails, o Copilot manteve o cálculo dentro do novo método, o que reduz a flexibilidade e dificulta o resuo do método extraído. Ainda assim o Copilot demonstrou boa capacidade em detectar e isolar responsabilidades.
+
+
 ## 3. Conclusão
 
 Ao fazer a mesma análise a todas as técnicas da lista `refatoracoes_possiveis.txt`, o copilot demonstrou um bom desempenho na refatoração. Na tabela:`copilot_x_especialista.xlsx` comparamos a refatoração feita pelo copilot x refatoração manual.
 
 As divergências entre o copilot e a refatoração manual concentram-se na interpretação da intenção da refatoração: enquanto a refatoração manual busca mostrar a técnica com base no conceito — sem garantir a completude do código —, o copilot fez ajustes para que o código fosse funcional. Por exemplo, o copilot interpretou a ausência de um `return` como um erro e inseriu a correção (mostrar técnica). Além da aplicação da técnica, o modelo introduziu pequenas modificações adicionais para tornar o código executável.
 
-De modo geral o copilot apresentou bom desempenho na aplicação das técnicas. Os exemplos acima demonstram que o copilot é capaz de aplicar refatorações corretamente. Em cenários reais, é necessário o processo de revisnao do código gerado para garantir boas práticas e para manter o código funcionanado....
+De modo geral o copilot apresentou bom desempenho na aplicação das técnicas. Os exemplos acima demonstram que o copilot é capaz de aplicar refatorações corretamente. Em cenários reais, é necessário o processo de revisão do código gerado para garantir boas práticas e para manter o código funcionando....
 
 ## 4. Referências
 
