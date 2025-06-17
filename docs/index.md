@@ -2,6 +2,10 @@
 
 > copilot agent , uma ferramenta para automatizar tarefas repetitivas no desenvolvimento de software.
 
+![removendo coisas](assets/ref.png)
+
+[Créditos aqui](https://www.monkeyuser.com/tags/refactor/)
+
 Existem diversas maneiras de usar o copilot, uma das mais comuns é o autocompletar, _utilizo há algum tempo e recomendo, só preste atenção, pois ele pode recomendar alguns códigos estranhos_. Apesar disso, o autocomplete é bastante eficiente para tarefas repetitivas, como geração de logs e testes unitários, especialmente quando sabemos o que deve ser implementado. Essa eficiência, inclusive, já é demonstrada por estudos recentes que mostram que o uso de LLMs para sugestões de código pode aumentar significativamente a produtividade e reduzir erros em tarefas de baixa complexidade [(Vaithilingam et al., 2022](https://www.researchgate.net/publication/360267490_Expectation_vs_Experience_Evaluating_the_Usability_of_Code_Generation_Tools_Powered_by_Large_Language_Models); [Jaffe et al., 2024)](https://www.microsoft.com/en-us/research/wp-content/uploads/2024/07/Generative-AI-in-Real-World-Workplaces.pdf).
 
 Outra forma interessante de uso é por meio de comentários com pequenas dicas, como o nome de um método ou um TODO. Nessas situações, o copilot faz sugestões bastante úteis.
@@ -17,7 +21,7 @@ Ainda que com limitações em segurança e precisão, a capacidade de LLMs de id
 - Analisa os _diffs_ gerados;
 - Revisa, adapta e decide se aceita ou rejeita as sugestões.
 
-Neste post, vamos analisar a capacidade do Copilot Agent com as técnicas de refatoração do livro [Refatoração](https://refactoring.com/), de Martin Fowler. Primeiro passamos para o Copilot uma lista de técnicas de refatoração e analisamos com mais detalhes alguns exemplos da lista. Os demais casos são resumidos em uma tabela, mostrando acertos e erros. Para testar a ferramenta em um cenário real, usamos a [API](<(https://github.com/bmentges/brainiak_api)>) e aplicamos a refatoração para remover uma dependência depreciada.
+Neste post, vamos analisar a capacidade do Copilot Agent com as técnicas de refatoração do livro [Refatoração](https://refactoring.com/), de Martin Fowler. Primeiro passamos para o Copilot uma lista de técnicas de refatoração e analisamos alguns exemplos da lista. Os demais casos são resumidos em uma tabela, mostrando acertos e erros. Para testar a ferramenta em um cenário real, usamos a [API](<(https://github.com/bmentges/brainiak_api)>) e aplicamos a refatoração para remover a integração com um banco de dados.
 
 ## Sumário
 
@@ -154,10 +158,6 @@ def validate_instance_properties_type(instance, props_type):
 
 ```
 
-![Processo da refatoração](assets/if.jpg)
-
-[Créditos aqui](https://img.devrant.com/devrant/rant/r_1647754_X1Twj.jpg)
-
 - prompt:
   > Refactor the validate_instance_properties_type function using the Substitute Algorithm technique. Ensure the refactored code preserves the original behavior and improves readability
 
@@ -229,10 +229,6 @@ No código original, a constante 9.81 aparece de forma "solta" dentro da fórmul
 
 #### Técnica: Replace Magic Number With Symbolic Constant
 
-![Magic Number](assets/magic-number.png)
-
-[Créditos aqui](https://blog.codeminer42.com/use-eslint-and-prettier-correctly-and-never-see-ugly-code-again/)
-
 O Copilot utilizou a técnica Replace Magic Number With Symbolic Constant, atrelando o valor da aceleração gravitacional na Terra à variável GRAVITY.
 
 **Código refatorado:**
@@ -283,11 +279,11 @@ O Copilot aplicou a técnica Extract Method, encapsulando os prints em um novo m
 
 O Copilot aplicou corretamente a técnica Extract Method mas seu código difere do proposto pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/extract-method_after.py), pois enquanto o Guru extraiu o valor retornado por getOutstanding() passando como argumento para printDetails, o Copilot manteve o cálculo dentro do novo método, o que reduz a flexibilidade e dificulta o resuo do método extraído. Ainda assim o Copilot demonstrou boa capacidade em detectar e isolar responsabilidades.
 
-### Refatorando multiplos arquivos com o Copilot Agent
+### Removendo a integração com um Banco de Dados
 
-E para testar o agent, refatoramos um _handler_ responsável pela comunicação entre uma API e dois bancos de dados: Neptune e Elasticsearch, além de outras funcionalidades auxiliares.
+Vamos remover uma funcionalidade de dentro de um _handler_ . No arquivo `handler-antes.py`, temos um trecho de código responsável por gerenciar a comunicação entre dois bancos de dados: [Neptune](https://docs.aws.amazon.com/neptune/) e [Elasticsearch](https://www.elastic.co/elasticsearch). Na Globo, o Neptune é utilizado para armazenar dados em grafo, seguindo o modelo [RDF](https://www.w3.org/RDF/). Já o Elasticsearch é usado para buscas rápidas e indexação de dados.
 
-O objetivo da refatoração era eliminar a dependência do banco Neptune, mantendo apenas o Elasticsearch.
+Esse handler é responsável por manter a consistência entre os dois bancos, garantindo que as operações reflitam em ambas as bases. Nosso objetivo é remover a lógica relacionada ao Neptune, mantendo apenas a comunicação com o Elasticsearch.
 
 ![Processo da refatoração](assets/dead-code-01.png)
 
@@ -311,30 +307,32 @@ Esse segundo passo envolveu alterações em 14 arquivos diferentes. O copilot id
 
 A refatoração resultou na remoção de uma grande quantidade de código, o que exigiu uma revisão cuidadosa. Como esperado, alguns testes falharam após as mudanças, e durante a análise, identificamos que ainda restavam algumas referências ao Neptune, o que exigiu instruções adicionais para fazer a remoção completa.
 
-![removendo coisas](assets/ref.png)
+E por que remover o Neptune?
 
-[Créditos aqui](https://www.monkeyuser.com/tags/refactor/)
+A decisão de remover o Neptune da aplicação faz parte de uma estratégia de modernização da infraestrutura semântica da Globo. Atualmente, temos cerca de 15 grafos que sustentam páginas como o [Tudo Sobre](https://g1.globo.com/tudo-sobre/ministerio-da-justica-e-seguranca-publica/), e enriquecem conteúdos em produtos como o [G1](https://g1.globo.com/mundo/noticia/2025/06/17/quem-era-ali-shadmani-lider-militar-iraniano-que-israel-anunciou-ter-matado.ghtml), conectando entidades e temas relacionados. Por um bom tempo, o Neptune foi o banco usado para manter a base semântica, mas a aplicação foi ganhando novas responsabilidades:`ifs, elses e mais ifs`, e com isso 2 problemas foram centrais para a mudança: custo do banco e manutenção da API.
 
-Aqui vale destacar que as refatorações da API não foram aplicadas em produção. Elas foram feitas com o objetivo de avaliar a capacidade do copilot em lidar com mudanças estruturais em múltiplos arquivos. Apesar do sucesso da refatoração, seria necessário também atualizar os testes dos arquivos alterados para garantir que nenhum problema foi causado.
+Diante disso, decidimos repensar a semântica Globo, e estamos no processo de reestruturação — avaliando outros formatos, como taxonomias ou vocabulários controlados — e enquanto pensamos, optamos por manter apenas o Elasticsearch, que já está integrado à API. A estratégia adotada foi a migração por paths, onde as queries [SPARQL](https://www.w3.org/TR/sparql11-query/) foram substituídas por consultas adaptadas para o ES, e este foi o primeiro passo da reestruturação semantica.
 
 ## 3. Conclusão
 
 O modo **Agent** demonstrou boa capacidade de entender o contexto das tarefas e se mostrou eficaz para aumentar a produtividade e automatizar tarefas repetitivas.
 
-![removendo coisas](assets/copilot.png)
-
-[Créditos aqui](https://www.monkeyuser.com/tags/refactor/)
-
 Ao aplicarmos todas as técnicas listadas em `refatoracoes_possiveis.txt`, observamos um bom desempenho na execução das refatorações. A planilha `copilot_x_especialista.xlsx` compara os resultados obtidos pelo copilot com versões refatoradas manualmente.
 
 As divergências identificadas entre as abordagens concentram-se, principalmente, na interpretação da intenção da refatoração. Enquanto a versão manual tende a demonstrar a técnica de forma conceitual (sem a preocupação de completar o código), o copilot tentou tornar o código executável. Por exemplo, ao identificar a ausência de um `return`, o modelo entendeu como um erro e fez ajuestes.
 
-## 4. Referências
+## 4. Saiba Mais
 
-- [Refactoring.com (Martin Fowler)](https://refactoring.com/)
-- [Copilot Agent](https://docs.github.com/en/copilot)
-- [AI-Driven Code Optimization](https://najer.org/najer/article/view/115/121)
-- [Leveraging LLMs for Legacy Code Modernization](https://arxiv.org/abs/2411.14971)
-- [An Empirical Study on the Potential of LLMs in Automated Software Refactoring](https://arxiv.org/abs/2411.04444)
-- [Using Large Language Models to Re-Engineer a Legacy System](https://ieeexplore.ieee.org/abstract/document/10992377)
-- [Exploring GenAI](https://martinfowler.com/articles/exploring-gen-ai/11-multi-file-editing.html)
+- [Refactoring.com (Martin Fowler)](https://refactoring.com/) — Livro do Martin Fowler sobre refatoração de código. Tenho esse livro há bastante tempo e sempre recorro a ele quando me deparo com um código difícil de alterar. Na primeira vez em que li, foi uma leitura contínua, passando pelas técnicas e tentando entender o que estava acontecendo. Com um pouco mais de experiência, sempre que encontro um código complicado, lembro e uso o livro como referência para refatorar.
+
+- [GitHub Copilot Agent](https://docs.github.com/en/copilot) — Documentação oficial do Copilot. Aqui você vai encontrar exemplos práticos, explicações sobre as funcionalidades e orientações de como usar a ferramenta.
+
+- [AI-Driven Code Optimization](https://najer.org/najer/article/view/115/121) — Este artigo fala do uso de IA para otimização de código legado.
+
+- [Leveraging LLMs for Legacy Code Modernization](https://arxiv.org/abs/2411.14971) — Este artigo analisa como LLMs podem ajudar na documentação de sistemas legados escritos em linguagens obsoletas como MUMPS e Assembly para mainframe.
+
+- [An Empirical Study on the Potential of LLMs in Automated Software Refactoring](https://arxiv.org/abs/2411.04444) — Estudo sobre o desempenho LLMs em tarefas de refatoração.
+
+- [Using Large Language Models to Re-Engineer a Legacy System](https://ieeexplore.ieee.org/abstract/document/10992377) — Reengenharia de sistema legado com LLMs.
+
+- [Exploring GenAI: Multi-file Editing](https://martinfowler.com/articles/exploring-gen-ai/11-multi-file-editing.html) — Este post faz parte de uma série posts, feitos para explorar a capacidade de agents para tarefas de desenvolvimento.
