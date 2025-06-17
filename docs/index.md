@@ -2,11 +2,15 @@
 
 > copilot agent , uma ferramenta para automatizar tarefas repetitivas no desenvolvimento de software.
 
-Existem diversas maneiras de usar o copilot, uma das mais comuns é o autocompletar, -- _utilizo há algum tempo e recomendo, só preste atenção ele pode recomendar alguns códigos estranhos_--. Apesar disso, o autocomplete é bastante eficiente para tarefas repetitivas, como geração de logs e testes unitários, especialmente quando sabemos o que deve ser implementado.
+Existem diversas maneiras de usar o copilot, uma das mais comuns é o autocompletar, -- _utilizo há algum tempo e recomendo, só preste atenção, pois ele pode recomendar alguns códigos estranhos_--. Apesar disso, o autocomplete é bastante eficiente para tarefas repetitivas, como geração de logs e testes unitários, especialmente quando sabemos o que deve ser implementado. Essa eficiência, inclusive, já é demonstrada por estudos recentes que mostram que o uso de LLMs para sugestões de código pode aumentar significativamente a produtividade e reduzir erros em tarefas de baixa complexidade [(Vaithilingam et al., 2022](https://www.researchgate.net/publication/360267490_Expectation_vs_Experience_Evaluating_the_Usability_of_Code_Generation_Tools_Powered_by_Large_Language_Models); [Jaffe et al., 2024)](https://www.microsoft.com/en-us/research/wp-content/uploads/2024/07/Generative-AI-in-Real-World-Workplaces.pdf).
 
 Outra forma interessante de uso é por meio de comentários com pequenas dicas, como o nome de um método ou um TODO. Nessas situações, o copilot faz sugestões bastante úteis.
 
-Mais recentemente, foi lançado o **GitHub Copilot Agent**. Este novo modo permite que a ferramenta vá além das sugestões pontuais: ela pode editar múltiplos arquivos, entendendo o contexto do projeto e fazendo mudanças estruturais. O processo é interativo:
+Mais recentemente, essas capacidades foram ampliadas com a introdução do **GitHub Copilot Agent**. Este novo modo permite que a ferramenta vá além das sugestões pontuais: ela pode editar múltiplos arquivos, entendendo o contexto do projeto e fazendo mudanças estruturais. 
+
+Esse avanço amplia o potencial de uso de LLMs em tarefas mais sofisticadas, como a refatoração de código. Refatorar significa melhorar a estrutura interna do código sem alterar seu comportamento, um conceito central na engenharia de software que tem sido explorado com LLMs como ferramenta de apoio [(Kass, 2025)](https://www.authorea.com/doi/full/10.22541/au.174768395.52918781). É também uma prática para manter a legibilidade, reduzir problemas técnicos e facilitar manutenções. A ideia é começar com tarefas pequenas preservando o funcionamento do código e evoluir para ratefas mais complexas. 
+
+Ainda que com limitações em segurança e precisão, a capacidade de LLMs de identificar e aplicar refatorações automaticamente já foi demonstrada em estudos recentes [(Liu et al., 2023)](https://www.researchgate.net/publication/385629991_An_Empirical_Study_on_the_Potential_of_LLMs_in_Automated_Software_Refactoring). O processo é interativo:
 
 - Você descreve o que precisa ser feito;
 - Adiciona arquivos ou diretórios no contexto que deseja alterar;
@@ -14,8 +18,6 @@ Mais recentemente, foi lançado o **GitHub Copilot Agent**. Este novo modo permi
 - Revisa, adapta e decide se aceita ou rejeita as sugestões.
 
 Neste post, vamos analisar a capacidade do Copilot Agent com as técnicas de refatoração do livro [Refatoração](https://refactoring.com/)
-
-Refatorar significa melhorar a estrutura interna do código sem alterar seu comportamento. É também uma prática para manter a legibilidade, reduzir problemas técnicos e facilitar manutenções. A ideia é começar com tarefas pequenas preservando o funcionamento do código e evoluir para ratefas mais complexas.
 
 ## Sumário
 
@@ -229,6 +231,10 @@ No código original, a constante 9.81 aparece de forma "solta" dentro da fórmul
 ```
 
 #### Técnica: Replace Magic Number With Symbolic Constant
+
+![Magic Number](assets/magic-number.png)
+
+[Créditos aqui](https://blog.codeminer42.com/use-eslint-and-prettier-correctly-and-never-see-ugly-code-again/)
 
 O Copilot utilizou a técnica Replace Magic Number With Symbolic Constant, atrelando o valor da aceleração gravitacional na Terra à variável GRAVITY.
 
