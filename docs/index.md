@@ -42,7 +42,7 @@ Para realizar esse processo, primeiro passamos para o Copilot uma lista de técn
   2.2 [Refatoração de API alterando múltiplos arquivos](#22-refatoração-de-api-alterando-múltiplos-arquivos)  
   2.3 [Removendo a integração com um Banco de Dados](#23-removendo-a-integração-com-um-banco-de-dados)  
 3. [Conclusão](#3-conclusão)  
-4. [Referências](#4-referências)
+4. [Saiba mais](#4-saiba-mais)
 
 ---
 
