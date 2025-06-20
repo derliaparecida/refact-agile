@@ -231,7 +231,32 @@ O Copilot aplicou a técnica Extract Method, encapsulando os prints em um novo m
 
 O Copilot aplicou corretamente a técnica Extract Method mas seu código difere do proposto pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/extract-method_after.py), pois enquanto o Guru extraiu o valor retornado por getOutstanding() passando como argumento para printDetails, o Copilot manteve o cálculo dentro do novo método, o que reduz a flexibilidade e dificulta o resuo do método extraído. Ainda assim o Copilot demonstrou boa capacidade em detectar e isolar responsabilidades.
 
-#### 2.1.6 Tabela comparativa de todas as técnicas
+#### 2.1.6 Replace Exception With Test: eliminando uso de exceções para controle de fluxo
+
+O código original utiliza um bloco try/except para capturar IndexError. Esse padrão é problemático porque usa exceções para tratar fluxos esperados do progrma, como o acesso a uma posição inexistente em uma lista. Embora válido, o uso compromate a clareza do código e pode impactar negativamente a performance. 
+
+```python
+    def getValueForPeriod(periodNumber):
+    try:
+        return values[periodNumber]
+    except IndexError:
+        return 0
+```
+
+Segundo o RefactoringGuru, a refatoração correta consistiria em substituir o uso da exceção por uma verificação explícita, utilizando a técnica [Replace Exception With Test](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-exception-with-test_after.py), no entanto o copilot sugeriu o seguinte código:
+
+```python
+    # Replace Error Code With Exception
+    def getValueForPeriod(periodNumber):
+        try:
+            return values[periodNumber]
+        except IndexError:
+            raise Exception("Invalid period number")
+```
+
+Nesse caso, o copilot aplicou uma técnica diferente: Replace Error Code With Exception, substituindo o valor do retorno por uma exceção explícita. Isso mostra que o modelo foi capaz de identificar que havia um padrão a ser transformado, mas não reconheceu corretamente qual téncica de refatoração era mais adequada ao contexto. O copilot não entendeu que o uso da exceção era o problema em si, mas sim que a resposta ao erro era insuficiente. Nesse caso, a refatoração tem um sentido técnico, mas falha em determinar o problema no código. Isso evidencia uma limitação importante: o copilot pode sugerir refatorações corretas, mas desalinhadas da intenção original.
+
+#### 2.1.7 Tabela comparativa de todas as técnicas
 
 Após a análise individual de cada técnica, organizamos os resultados da etapa 2.1 na tabela abaixo. Para cada caso, consideramos como acerto quando o Copilot aplicou a técnica correta com clareza e manteve o comportamento do código, mesmo que não tenha seguindo exatamente a implementação esperada ou sugerida pelo RefactoringGuru. 
 
