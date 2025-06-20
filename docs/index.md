@@ -6,7 +6,9 @@
 
 [Créditos aqui](https://www.monkeyuser.com/tags/refactor/)
 
-Este artigo foi desenvolvido como parte da disciplina **Metodologias Ágeis para o Desenvolvimento de Software**, oferecida no [Programa de Pós-Graduação em Computação Aplicada (PPGCA) da **UTFPR**](https://www.utfpr.edu.br/cursos/programas-de-pos-graduacao/ppgca-ct), ministrada pelo Professor [Adolfo Neto](https://adolfont.github.io/). Os autores são [Ana Schwaab](https://github.com/anaschwaab) e [Derli Machado](https://github.com/derliaparecida).
+> Este artigo foi desenvolvido como parte da disciplina **Metodologias Ágeis para o Desenvolvimento de Software**, oferecida no [Programa de Pós-Graduação em Computação Aplicada (PPGCA) da **UTFPR**](https://www.utfpr.edu.br/cursos/programas-de-pos-graduacao/ppgca-ct), ministrada pelo Professor [Adolfo Neto](https://adolfont.github.io/). Os autores são [Ana Schwaab](https://github.com/anaschwaab) e [Derli Machado](https://github.com/derliaparecida).
+
+Neste trabalho, exploramos o uso do GitHub Copilot Agent (v 1.336.0) como ferramenta de apoio à refatoração de código. Combinando teoria e prática, avaliamos a eficácia do agente em aplicar técnicas clássicas de refatoração descritas no livro [Refatoração](https://refactoring.com/) de Martin Fowler. Para isso, utilizamos trechos de código representativos de problemas comuns no desenvolvimento de software, além de aplicar a ferramenta em um cenário real: a refatoração de uma API com múltiplos arquivos. O objetivo é entender o potencial dessas ferramentas baseadas em modelos de linguagem para apoiar a manutenção e evolução de sistemas.
 
 Existem diversas maneiras de usar o copilot, uma das mais comuns é o autocompletar, _utilizo há algum tempo e recomendo, só preste atenção, pois ele pode recomendar alguns códigos estranhos_. Apesar disso, o autocomplete é bastante eficiente para tarefas repetitivas, como geração de logs e testes unitários, especialmente quando sabemos o que deve ser implementado. Essa eficiência, inclusive, já é demonstrada por estudos recentes que mostram que o uso de LLMs para sugestões de código pode aumentar significativamente a produtividade e reduzir erros em tarefas de baixa complexidade [(Vaithilingam et al., 2022](https://www.researchgate.net/publication/360267490_Expectation_vs_Experience_Evaluating_the_Usability_of_Code_Generation_Tools_Powered_by_Large_Language_Models); [Jaffe et al., 2024)](https://www.microsoft.com/en-us/research/wp-content/uploads/2024/07/Generative-AI-in-Real-World-Workplaces.pdf).
 
@@ -23,7 +25,7 @@ Ainda que com limitações em segurança e precisão, a capacidade de LLMs de id
 - Analisa os _diffs_ gerados;
 - Revisa, adapta e decide se aceita ou rejeita as sugestões.
 
-Neste post, vamos analisar a capacidade do Copilot Agent com as técnicas de refatoração do livro [Refatoração](https://refactoring.com/), de Martin Fowler. Primeiro passamos para o Copilot uma lista de técnicas de refatoração e analisamos alguns exemplos da lista. Os demais casos são resumidos em uma tabela, mostrando acertos e erros. Para testar a ferramenta em um cenário real, usamos a [API](<(https://github.com/bmentges/brainiak_api)>) e aplicamos a refatoração para remover a integração com um banco de dados.
+Para realizar esse processo, primeiro passamos para o Copilot uma lista de técnicas de refatoração e analisamos alguns exemplos da lista. Os demais casos são resumidos em uma tabela, mostrando acertos e erros. Para testar a ferramenta em um cenário real, usamos a [API](<(https://github.com/bmentges/brainiak_api)>) e aplicamos a refatoração para remover a integração com um banco de dados.
 
 ## Sumário
 
