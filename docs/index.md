@@ -231,6 +231,39 @@ O Copilot aplicou a técnica Extract Method, encapsulando os prints em um novo m
 
 O Copilot aplicou corretamente a técnica Extract Method mas seu código difere do proposto pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/extract-method_after.py), pois enquanto o Guru extraiu o valor retornado por getOutstanding() passando como argumento para printDetails, o Copilot manteve o cálculo dentro do novo método, o que reduz a flexibilidade e dificulta o resuo do método extraído. Ainda assim o Copilot demonstrou boa capacidade em detectar e isolar responsabilidades.
 
+#### 2.1.6 Tabela comparativa de todas as técnicas
+
+Após a análise individual de cada técnica, organizamos os resultados da etapa 2.1 na tabela abaixo. Para cada caso, consideramos como acerto quando o Copilot aplicou a técnica correta com clareza e manteve o comportamento do código, mesmo que não tenha seguindo exatamente a implementação esperada ou sugerida pelo RefactoringGuru. 
+
+| Técnica de refatoração                        | Refatoração copilot     | Refatoração manual      |
+|:----------------------------------------------|:------------------------|:------------------------|
+| Consolidate Conditional Expression            | Aplicou corretamente    | Diferente da referência |
+| Consolidate Duplicate Conditional Fragments   | Aplicou corretamente    | Diferente da referência |
+| Decompose Conditional                         | Aplicou corretamente    | Diferente da referência |
+| Extract Class                                 | Aplicou parcialmente    | Diferente da referência |
+| Extract Method                                | Aplicou corretamente    | Diferente da referência |
+| Inline Method                                 | Aplicou corretamente    | Igual à referência      |
+| Inline Temp                                   | Aplicou corretamente    | Igual à referência      |
+| Introduce Assertion                           | Aplicou corretamente    | Igual à referência      |
+| Introduce Foreign Method                      | Aplicou corretamente    | Diferente da referência |
+| Introduce Null Object                         | Aplicou corretamente    | Diferente da referência |
+| Preserve Whole Object                         | Aplicou corretamente    | Igual à referência      |
+| Pull Up Constructor Body                      | Aplicou corretamente    | Diferente da referência |
+| Remove Assignments To Parameters              | Aplicou corretamente    | Igual à referência      |
+| Replace Array With Object                     | Aplicou corretamente    | Diferente da referência |
+| Replace Conditional With Polymorphism         | Aplicou corretamente    | Igual à referência      |
+| Replace Error Code With Exception             | Aplicou corretamente    | Diferente da referência |
+| Replace Exception With Test                   | Não aplicou             | -                       |
+| Replace Magic Number With Symbolic Constant   | Aplicou corretamente    | Igual à referência      |
+| Replace Method With Method Object             | Aplicou corretamente    | Igual à referência      |
+| Replace Nested Conditional With Guard Clauses | Aplicou corretamente    | Igual à referência      |
+| Replace Parameter With Explicit Methods       | Aplicou corretamente    | Igual à referência      |
+| Replace Parameter With Method Call            | Aplicou corretamente    | Diferente da referência |
+| Replace Temp With Query                       | Aplicou corretamente    | Diferente da referência |
+| Split Temporary Variable                      | Aplicou corretamente    | Igual à referência      |
+| Substitute Algorithm                          | Aplicou corretamente    | Diferente da referência |
+
+
 ## 2.2 Refatoração de API alterando multiplos arquivos
 
 Para explorar a capacidade do copilot em contextos reais, utilizamos o [BrainiakAPI](https://github.com/bmentges/brainiak_api), uma API da [Globo]() voltada para manipulação de dados semânticos por meio de rotas REST. Ela oferece suporte a operações como CRUD, permalinks, buscas, sugestões e consultas parametrizadas, além de permitir a integração com múltiplas ontologias e bancos como Elasticsearch e Neptune.
