@@ -85,7 +85,7 @@ A técnica aplicada pelo copilot está correta, evitando reuso e melhorando legi
 
 Neste exemplo, o copilot teve um bom desempenho, manteve a mesma abordagem do [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/split-temporary-variable_after.py). A substituição da variável genérica `temp` por variáveis com nomes específicos, torna o código mais claro, o nome de variáveis devem refletir o valor que armazenam[CleanCode](clencode).
 
-#### 2.1.2 Replace Conditional With Polymorphism: eliminando condicionais repetidas
+#### 2.1.2 Replace Conditional With Polymorphism: delegando lógica específica para subclasses
 
 No cenário abaixo temos uma funcão com várias condicionais `if/elif` que tratam diferentes comportamentos de acordo com o tipo de `Bird`. Problema: essa classe dificulta manutenção, extensão do código, a organização do código em geral está confusa, e viola o princípio como o [Open/Closed Principle](https://en.wikipedia.org/wiki/Open%E2%80%93closed_principle).Em cenários reais, quando mais casos são adicionados, o método cresce e se torna mais difícil de testar e compreender isoladamente.
 
@@ -130,7 +130,7 @@ A técnica acima consiste em substituir estruturas condicionais, como `if/elif` 
             return 0 if self.isNailed else self.getBaseSpeed(self.voltage)
 ```
 
-O copilot implementa a substituição de condicionais por subclasses específicas para cada tipo de objeto, respeitando os princípios da técnica, a refatoração ficou muito próxima da indicada pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-conditional-with-polymorphism_after.py) .
+O copilot implementa a substituição de condicionais por subclasses específicas para cada tipo de objeto, respeitando os princípios da técnica, a refatoração ficou muito próxima da indicada pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-conditional-with-polymorphism_after.py).
 
 #### 2.1.3 Replace Temp With Query: removendo variáveis temporárias desnecessárias
 
