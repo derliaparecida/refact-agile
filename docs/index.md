@@ -31,9 +31,17 @@ Para realizar esse processo, primeiro passamos para o Copilot uma lista de técn
 
 ## Sumário
 
-1. [Como estruturamos os testes](#1-como-estruturamos-os-testes)
-2. [Análise das refatorações](#2-análise-das-refatorações)
-3. [Conclusão](#3-conclusão)
+1. [Como estruturamos os testes](#1-como-estruturamos-os-testes)  
+2. [Análise das refatorações](#2-análise-das-refatorações)  
+  2.1 [Análises de exemplos de código do RefactoringGuru](#21-análises-de-exemplos-de-código-do-refactoringguru)  
+    2.1.1 [Split Temporary Variable: substituindo variável com múltiplos usos](#211-split-temporary-variable-substituindo-variável-com-múltiplos-usos)  
+    2.1.2 [Replace Conditional With Polymorphism: delegando lógica específica para subclasses](#212-replace-conditional-with-polymorphism-delegando-lógica-específica-para-subclasses)  
+    2.1.3 [Replace Temp With Query: removendo variáveis temporárias desnecessárias](#213-replace-temp-with-query-removendo-variáveis-temporárias-desnecessárias)  
+    2.1.4 [Replace Magic Number With Symbolic Constant: dando significado a números \"mágicos\"](#214-replace-magic-number-with-symbolic-constant-dando-significado-a-números-mágicos)  
+    2.1.5 [Extract Method: separando blocos com responsabilidades distintas](#215-extract-method-separando-blocos-com-responsabilidades-distintas)  
+  2.2 [Refatoração de API alterando múltiplos arquivos](#22-refatoração-de-api-alterando-múltiplos-arquivos)  
+  2.3 [Removendo a integração com um Banco de Dados](#23-removendo-a-integração-com-um-banco-de-dados)  
+3. [Conclusão](#3-conclusão)  
 4. [Referências](#4-referências)
 
 ---
