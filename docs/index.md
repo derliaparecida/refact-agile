@@ -96,7 +96,7 @@ A técnica aplicada pelo copilot está correta, evitando reuso e melhorando legi
     print(area)
 ```
 
-Neste exemplo, o copilot teve um bom desempenho, manteve a mesma abordagem do [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/split-temporary-variable_after.py). A substituição da variável genérica `temp` por variáveis com nomes específicos, torna o código mais claro, o nome de variáveis devem refletir o valor que armazenam[CleanCode](clencode).
+Neste exemplo, o copilot teve um bom desempenho, manteve a mesma abordagem do [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/split-temporary-variable_after.py). A substituição da variável genérica `temp` por variáveis com nomes específicos, torna o código mais claro, o nome de variáveis devem refletir o valor que armazenam [CleanCode](clencode).
 
 #### 2.1.2 Replace Conditional With Polymorphism: delegando lógica específica para subclasses
 
@@ -147,7 +147,7 @@ O copilot implementa a substituição de condicionais por subclasses específica
 
 #### 2.1.3 Replace Temp With Query: removendo variáveis temporárias desnecessárias
 
-No código original, a função calculateTotal utiliza uma variável temporária chamada basePrice apenas para armazenar o resultado de uma expressão que poderia ser calculada diretamente (quantity \* itemPrice). Esse uso é redundante e pode ser substituído por uma query que encapsula a lógica, melhorando a clareza e a coesão do código.
+No código original, a função `calculateTotal` utiliza uma variável temporária chamada `basePrice` apenas para armazenar o resultado de uma expressão que poderia ser calculada diretamente (quantity \* itemPrice). Esse uso é redundante e pode ser substituído por uma query que encapsula a lógica, melhorando a clareza e a coesão do código.
 
 **Código original:**
 
@@ -160,7 +160,7 @@ No código original, a função calculateTotal utiliza uma variável temporária
             return basePrice * 0.98
 ```
 
-O copilot utilizou a técnica Replace Temp With Query, substituindo a variável basePrice diretamente pela expressão lógica.
+O copilot utilizou a técnica `Replace Temp With Query`, substituindo a variável `basePrice` diretamente pela expressão lógica.
 
 **Código refatorado:**
 
@@ -173,11 +173,11 @@ O copilot utilizou a técnica Replace Temp With Query, substituindo a variável 
             return quantity * itemPrice * 0.98
 ```
 
-Apesar do copilot substituir corretamente a variável basePrice pela expressão lógica, falhou em encapsular essa lógica em um método que poderia ser reutilizado no código, como é indicado pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-temp-with-query_after.py). Isso mostra que o Copilot foi capaz de compreender o problema da variável temporária, mas não soube propor a melhor abstração para legibilidade e manutenção.
+Apesar do copilot substituir corretamente a variável `basePrice` pela expressão lógica, falhou em encapsular essa lógica em um método que poderia ser reutilizado no código, como é indicado pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-temp-with-query_after.py). Isso mostra que o Copilot foi capaz de compreender o problema da variável temporária, mas não soube propor a melhor abstração para legibilidade e manutenção.
 
 #### 2.1.4 Replace Magic Number With Symbolic Constant: dando significado a números "mágicos"
 
-No código original, a constante 9.81 aparece de forma "solta" dentro da fórmula de cálculo da energia potencial. Esse valor representa a aceleração gravitacional na Terra, mas como está escrito diretamente no cálculo, é conhecido como **número mágico** - um valo numérico usado sem contexto explícito. Esse tipo de prática prejudica a legibilidade, dificulta manutenção e reutilização desse valor além de reduz a clareza semântica do código.
+No código original, a constante `9.81` aparece de forma "solta" dentro da fórmula de cálculo da energia potencial. Esse valor representa a aceleração gravitacional na Terra, mas como está escrito diretamente no cálculo, é conhecido como **número mágico** - um valo numérico usado sem contexto explícito. Esse tipo de prática prejudica a legibilidade, dificulta manutenção e reutilização desse valor além de reduz a clareza semântica do código.
 
 **Código original:**
 
@@ -186,7 +186,7 @@ No código original, a constante 9.81 aparece de forma "solta" dentro da fórmul
         return mass * height * 9.81
 ```
 
-O Copilot utilizou a técnica Replace Magic Number With Symbolic Constant, atrelando o valor da aceleração gravitacional na Terra à variável GRAVITY.
+O Copilot utilizou a técnica `Replace Magic Number With Symbolic Constant`, atrelando o valor da aceleração gravitacional na Terra à variável `GRAVITY`.
 
 **Código refatorado:**
 
@@ -199,11 +199,11 @@ O Copilot utilizou a técnica Replace Magic Number With Symbolic Constant, atrel
         return mass * height * GRAVITY
 ```
 
-O Copilot foi capaz de aplicar corretamente a técnica Replace Magic Number With Symbolic Constant e seu código difere do proposto pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-magic-number-with-symbolic-constant_after.py) apenas no nome da variável, enquanto o primeiro utilizou o nome GRAVITATIONAL_CONSTANT, o Copilot escolheu GRAVITY, sendo que ambos são válidos e descritivos do valor armazenado.
+O Copilot foi capaz de aplicar corretamente a técnica `Replace Magic Number With Symbolic Constant` e seu código difere do proposto pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-magic-number-with-symbolic-constant_after.py) apenas no nome da variável, enquanto o primeiro utilizou o nome `GRAVITATIONAL_CONSTANT`, o Copilot escolheu `GRAVITY`, sendo que ambos são válidos e descritivos do valor armazenado.
 
 #### 2.1.5 Extract Method: separando blocos com responsabilidades distintas
 
-No código original, o método printOwing realiza duas tarefas: exibe um banner e imprime os detalhes do cliente (nome e valor devido). Esse tipo de método com múltiplas responsabilidades prejudica a legibilidade e dificulta testes e manutenção.
+No código original, o método `printOwing` realiza duas tarefas: exibe um banner e imprime os detalhes do cliente (nome e valor devido). Esse tipo de método com múltiplas responsabilidades prejudica a legibilidade e dificulta testes e manutenção.
 
 **Código original:**
 
@@ -216,7 +216,7 @@ No código original, o método printOwing realiza duas tarefas: exibe um banner 
         print("amount:", self.getOutstanding())
 ```
 
-O Copilot aplicou a técnica Extract Method, encapsulando os prints em um novo método printDetails.
+O Copilot aplicou a técnica `Extract Method`, encapsulando os prints em um novo método `printDetails`.
 
 **Código refatorado:**
 
@@ -232,11 +232,11 @@ O Copilot aplicou a técnica Extract Method, encapsulando os prints em um novo m
         print("amount:", self.getOutstanding())
 ```
 
-O Copilot aplicou corretamente a técnica Extract Method mas seu código difere do proposto pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/extract-method_after.py), pois enquanto o Guru extraiu o valor retornado por getOutstanding() passando como argumento para printDetails, o Copilot manteve o cálculo dentro do novo método, o que reduz a flexibilidade e dificulta o resuo do método extraído. Ainda assim o Copilot demonstrou boa capacidade em detectar e isolar responsabilidades.
+O Copilot aplicou corretamente a técnica `Extract Method` mas seu código difere do proposto pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/extract-method_after.py), pois enquanto o Guru extraiu o valor retornado por `getOutstanding()` passando como argumento para `printDetails`, o Copilot manteve o cálculo dentro do novo método, o que reduz a flexibilidade e dificulta o resuo do método extraído. Ainda assim o Copilot demonstrou boa capacidade em detectar e isolar responsabilidades.
 
 #### 2.1.6 Replace Exception With Test: eliminando uso de exceções para controle de fluxo
 
-O código original utiliza um bloco try/except para capturar IndexError. Esse padrão é problemático porque usa exceções para tratar fluxos esperados do progrma, como o acesso a uma posição inexistente em uma lista. Embora válido, o uso compromate a clareza do código e pode impactar negativamente a performance. 
+O código original utiliza um bloco `try/except` para capturar `IndexError`. Esse padrão é problemático porque usa exceções para tratar fluxos esperados do programa, como o acesso a uma posição inexistente em uma lista. Embora válido, o uso compromate a clareza do código e pode impactar negativamente a performance. 
 
 ```python
     def getValueForPeriod(periodNumber):
@@ -246,7 +246,7 @@ O código original utiliza um bloco try/except para capturar IndexError. Esse pa
         return 0
 ```
 
-Segundo o RefactoringGuru, a refatoração correta consistiria em substituir o uso da exceção por uma verificação explícita, utilizando a técnica [Replace Exception With Test](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-exception-with-test_after.py), no entanto o copilot sugeriu o seguinte código:
+Segundo o _RefactoringGuru_, a refatoração correta consistiria em substituir o uso da exceção por uma verificação explícita, utilizando a técnica [Replace Exception With Test](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-exception-with-test_after.py), no entanto o copilot sugeriu o seguinte código:
 
 ```python
     # Replace Error Code With Exception
@@ -257,11 +257,11 @@ Segundo o RefactoringGuru, a refatoração correta consistiria em substituir o u
             raise Exception("Invalid period number")
 ```
 
-Nesse caso, o copilot aplicou uma técnica diferente: Replace Error Code With Exception, substituindo o valor do retorno por uma exceção explícita. Isso mostra que o modelo foi capaz de identificar que havia um padrão a ser transformado, mas não reconheceu corretamente qual téncica de refatoração era mais adequada ao contexto. O copilot não entendeu que o uso da exceção era o problema em si, mas sim que a resposta ao erro era insuficiente. Nesse caso, a refatoração tem um sentido técnico, mas falha em determinar o problema no código. Isso evidencia uma limitação importante: o copilot pode sugerir refatorações corretas, mas desalinhadas da intenção original.
+Nesse caso, o copilot aplicou uma técnica diferente: `Replace Error Code With Exception`, substituindo o valor do retorno por uma exceção explícita. Isso mostra que o modelo foi capaz de identificar que havia um padrão a ser transformado, mas não reconheceu corretamente qual téncica de refatoração era mais adequada ao contexto. O copilot não entendeu que o uso da exceção era o problema em si, mas sim que a resposta ao erro era insuficiente. Nesse caso, a refatoração tem um sentido técnico, mas falha em determinar o problema no código. Isso evidencia uma limitação importante: o copilot pode sugerir refatorações corretas, mas desalinhadas da intenção original.
 
 #### 2.1.7 Tabela comparativa de todas as técnicas
 
-Após a análise individual de cada técnica, organizamos os resultados da etapa 2.1 na tabela abaixo. Para cada caso, consideramos como acerto quando o Copilot aplicou a técnica correta com clareza e manteve o comportamento do código, mesmo que não tenha seguindo exatamente a implementação esperada ou sugerida pelo RefactoringGuru. 
+Após a análise individual de cada técnica, organizamos os resultados da etapa 2.1 na tabela abaixo. Para cada caso, consideramos como acerto quando o Copilot aplicou a técnica correta com clareza e manteve o comportamento do código, mesmo que não tenha seguindo exatamente a implementação esperada ou sugerida pelo _RefactoringGuru_. 
 
 | Técnica de refatoração                        | Refatoração copilot     | Refatoração manual      |
 |:----------------------------------------------|:------------------------|:------------------------|
