@@ -62,7 +62,7 @@ Selecionamos funções python do repositório [_RefactoringGuru_](https://github
 
 No código abaixo, a variável `temp` é usada para armazenar dois valores: o perímetro e área. Isso torna o código mais difícil de entender, especialmente porque o nome genérico da variável não revela seu propósito. Essa prática pode dificultar o processo de depuração, aumentar o risco de sobrescrita do valor e compromete a legibilidade — além de violar o princípio de responsabilidade única.
 
-**Código antes:**
+**Código original:**
 
 ```python
     temp = 2 * (height + width)
@@ -73,7 +73,7 @@ No código abaixo, a variável `temp` é usada para armazenar dois valores: o pe
 
 A técnica aplicada pelo copilot está correta, evitando reuso e melhorando legibilidade do código.
 
-**Código depois:**
+**Código refatorado:**
 
 ```python
     # Split Temporary Variable
@@ -89,7 +89,7 @@ Neste exemplo, o copilot teve um bom desempenho, manteve a mesma abordagem do [R
 
 No cenário abaixo temos uma funcão com várias condicionais `if/elif` que tratam diferentes comportamentos de acordo com o tipo de `Bird`. Problema: essa classe dificulta manutenção, extensão do código, a organização do código em geral está confusa, e viola o princípio como o [Open/Closed Principle](https://en.wikipedia.org/wiki/Open%E2%80%93closed_principle).Em cenários reais, quando mais casos são adicionados, o método cresce e se torna mais difícil de testar e compreender isoladamente.
 
-**Código antes:**
+**Código original:**
 
 ```python
 class Bird:
@@ -110,7 +110,7 @@ class Bird:
 
 A técnica acima consiste em substituir estruturas condicionais, como `if/elif` por chamadas polimórficas, passando o comportamento específico para cada subclasse. Isso melhora a legibilidade e facilita a extensão do código.
 
-**Código depois:**
+**Código refatorado:**
 
 ```python
     class Bird:
@@ -227,7 +227,7 @@ Para explorar a capacidade do copilot em contextos reais, utilizamos o [Brainiak
 
 Neste exemplo, começamos com uma função responsável por validar os tipos das propriedades de uma instância. O código original possui diversos blocos `if/elif` que verificam os tipos esperados, tornando a função extensa e repetitiva.
 
-**Código antes:**
+**Código original:**
 
 ```python
 def validate_instance_properties_type(instance, props_type):
@@ -253,7 +253,7 @@ def validate_instance_properties_type(instance, props_type):
 - prompt:
   > Refactor the validate_instance_properties_type function using the Substitute Algorithm technique. Ensure the refactored code preserves the original behavior and improves readability
 
-**Código depois:**:
+**Código refatorado:**
 
 ```python
 def validate_instance_properties_type(instance, props_type):
