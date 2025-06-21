@@ -6,6 +6,12 @@
 
 [Créditos aqui](https://www.monkeyuser.com/tags/refactor/)
 
+> Este artigo foi desenvolvido como parte da disciplina **Metodologias Ágeis para o Desenvolvimento de Software**, oferecida no [Programa de Pós-Graduação em Computação Aplicada (PPGCA) da **UTFPR**](https://www.utfpr.edu.br/cursos/programas-de-pos-graduacao/ppgca-ct), ministrada pelo Professor [Adolfo Neto](https://adolfont.github.io/). Os autores são [Ana Schwaab](https://github.com/anaschwaab) e [Derli Machado](https://github.com/derliaparecida).
+
+A refatoração contínua é uma prática valorizada dentro das metodologias ágeis por contribuir diretamente para a manutenção da qualidade do software ao longo do tempo. Uma das primeiras metodologias formalizadas foi o Extreme Programming (XP), descrito no livro [Extreme Programming Explained](https://www.oreilly.com/library/view/extreme-programming-explained/0201616416/), de Kent Beck. Nele, a refatoração é apresentada como uma das doze práticas centrais, justamente pelo seu papel em manter o design limpo e adaptável à mudanças frequentes. XP é considerado por autores como Martin Fowler como um [catalisador importante do movimento ágil](https://martinfowler.com/bliki/ExtremeProgramming.html), ajudando a consolidar práticas como desenvolvimento incremental e melhoria contínua. Foi justamente essa conexão entre refatoração e desenvolvimento ágil que motivou a escolha do tema deste trabalho.
+
+Neste artigo, exploramos o uso do GitHub Copilot Agent (v 1.336.0) como ferramenta de apoio à refatoração de código. Combinando teoria e prática, avaliamos a eficácia do agente em aplicar técnicas clássicas de refatoração descritas no livro [Refatoração](https://refactoring.com/) de Martin Fowler. Para isso, utilizamos trechos de código representativos de problemas comuns no desenvolvimento de software, além de aplicar a ferramenta em um cenário real: a refatoração de uma API com múltiplos arquivos. O objetivo é entender o potencial dessas ferramentas baseadas em modelos de linguagem para apoiar a manutenção e evolução de sistemas.
+
 Existem diversas maneiras de usar o copilot, uma das mais comuns é o autocompletar, _utilizo há algum tempo e recomendo, só preste atenção, pois ele pode recomendar alguns códigos estranhos_. Apesar disso, o autocomplete é bastante eficiente para tarefas repetitivas, como geração de logs e testes unitários, especialmente quando sabemos o que deve ser implementado. Essa eficiência, inclusive, já é demonstrada por estudos recentes que mostram que o uso de LLMs para sugestões de código pode aumentar significativamente a produtividade e reduzir erros em tarefas de baixa complexidade [(Vaithilingam et al., 2022](https://www.researchgate.net/publication/360267490_Expectation_vs_Experience_Evaluating_the_Usability_of_Code_Generation_Tools_Powered_by_Large_Language_Models); [Jaffe et al., 2024)](https://www.microsoft.com/en-us/research/wp-content/uploads/2024/07/Generative-AI-in-Real-World-Workplaces.pdf).
 
 Outra forma interessante de uso é por meio de comentários com pequenas dicas, como o nome de um método ou um TODO. Nessas situações, o copilot faz sugestões bastante úteis.
@@ -21,18 +27,29 @@ Ainda que com limitações em segurança e precisão, a capacidade de LLMs de id
 - Analisa os _diffs_ gerados;
 - Revisa, adapta e decide se aceita ou rejeita as sugestões.
 
-Neste post, vamos analisar a capacidade do Copilot Agent com as técnicas de refatoração do livro [Refatoração](https://refactoring.com/), de Martin Fowler. Primeiro passamos para o Copilot uma lista de técnicas de refatoração e analisamos alguns exemplos da lista. Os demais casos são resumidos em uma tabela, mostrando acertos e erros. Para testar a ferramenta em um cenário real, usamos a [API](<(https://github.com/bmentges/brainiak_api)>) e aplicamos a refatoração para remover a integração com um banco de dados.
+Para realizar esse processo, primeiro passamos para o Copilot uma lista de técnicas de refatoração e analisamos alguns exemplos da lista. Os demais casos são resumidos em uma tabela, mostrando acertos e erros. Para testar a ferramenta em um cenário real, usamos a [API](<(https://github.com/bmentges/brainiak_api)>) e aplicamos a refatoração para remover a integração com um banco de dados.
 
 ## Sumário
 
-1. [Refatorando](#1-refatorando)
-2. [Resultados](#2-resultados)
-3. [Conclusão](#3-conclusão)
-4. [Referências](#4-referências)
+1. [Como estruturamos os testes](#1-como-estruturamos-os-testes)  
+2. [Análise das refatorações](#2-análise-das-refatorações)  
+  2.1 [Análises de exemplos de código do RefactoringGuru](#21-análises-de-exemplos-de-código-do-refactoringguru)  
+    2.1.1 [Split Temporary Variable: substituindo variável com múltiplos usos](#211-split-temporary-variable-substituindo-variável-com-múltiplos-usos)  
+    2.1.2 [Replace Conditional With Polymorphism: delegando lógica específica para subclasses](#212-replace-conditional-with-polymorphism-delegando-lógica-específica-para-subclasses)  
+    2.1.3 [Replace Temp With Query: removendo variáveis temporárias desnecessárias](#213-replace-temp-with-query-removendo-variáveis-temporárias-desnecessárias)  
+    2.1.4 [Replace Magic Number With Symbolic Constant: dando significado a números "mágicos"](#214-replace-magic-number-with-symbolic-constant-dando-significado-a-números-mágicos)  
+    2.1.5 [Extract Method: separando blocos com responsabilidades distintas](#215-extract-method-separando-blocos-com-responsabilidades-distintas)  
+    2.1.6 [Replace Exception With Test: eliminando uso de exceções para controle de fluxo](#216-replace-exception-with-test-eliminando-uso-de-exceções-para-controle-de-fluxo)  
+    2.1.7 [Tabela comparativa de todas as técnicas](#217-tabela-comparativa-de-todas-as-técnicas)  
+  2.2 [Refatoração de API alterando múltiplos arquivos](#22-refatoração-de-api-alterando-múltiplos-arquivos)  
+  2.3 [Removendo a integração com um Banco de Dados](#23-removendo-a-integração-com-um-banco-de-dados)  
+3. [Conclusão](#3-conclusão)  
+4. [Saiba mais](#4-saiba-mais)  
+
 
 ---
 
-## 1. Método utilizado
+## 1. Como estruturamos os testes
 
 1. **Isolamento do código original**  
    O código original foi organizado na pasta `python-before`.
@@ -48,16 +65,17 @@ Neste post, vamos analisar a capacidade do Copilot Agent com as técnicas de ref
    - Um prompt com as instruções:
      > _“Read each file under the folder 'codigos/python-before'. For each file you will generate a new file with suffix '\_copilot' with a refactoring suggestion. The refactoring must be one listed in the file 'refatoracoes_possiveis.txt'. You should write the refactoring name as a comment on the first line of the generated file.”_
 
-## 2. Refatoração aplicada com técnicas clássicas
+## 2. Análise das refatorações
+
+### 2.1 Análises de exemplos de código do RefactoringGuru
 
 Selecionamos funções python do repositório [_RefactoringGuru_](https://github.com/RefactoringGuru/refactoring-examples/tree/main/simple/python), que reúne exemplos práticos de código do livro Refatoração.A intenção desta etapa é avaliar a capacidade do Copilot em aplicar as técnicas de refatoração descritas no livro. Para isso, vamos comparar as sugestões do Copilot com as versões refatoradas manualmente disponíveis no próprio repositório.
 
-**Split Temporary Variable**
-Problema: Uso de variáveis temporárias, para dois propósitos diferentes.
+#### 2.1.1 Split Temporary Variable: substituindo variável com múltiplos usos
 
 No código abaixo, a variável `temp` é usada para armazenar dois valores: o perímetro e área. Isso torna o código mais difícil de entender, especialmente porque o nome genérico da variável não revela seu propósito. Essa prática pode dificultar o processo de depuração, aumentar o risco de sobrescrita do valor e compromete a legibilidade — além de violar o princípio de responsabilidade única.
 
-**Código antes:**
+**Código original:**
 
 ```python
     temp = 2 * (height + width)
@@ -68,7 +86,7 @@ No código abaixo, a variável `temp` é usada para armazenar dois valores: o pe
 
 A técnica aplicada pelo copilot está correta, evitando reuso e melhorando legibilidade do código.
 
-**Código depois:**
+**Código refatorado:**
 
 ```python
     # Split Temporary Variable
@@ -78,13 +96,13 @@ A técnica aplicada pelo copilot está correta, evitando reuso e melhorando legi
     print(area)
 ```
 
-Neste exemplo, o copilot teve um bom desempenho, manteve a mesma abordagem do [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/split-temporary-variable_after.py). A substituição da variável genérica `temp` por variáveis com nomes específicos, torna o código mais claro, o nome de variáveis devem refletir o valor que armazenam[CleanCode](clencode).
+Neste exemplo, o copilot teve um bom desempenho, manteve a mesma abordagem do [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/split-temporary-variable_after.py). A substituição da variável genérica `temp` por variáveis com nomes específicos, torna o código mais claro, o nome de variáveis devem refletir o valor que armazenam [CleanCode](clencode).
 
-**Replace Conditional With Polymorphism**
+#### 2.1.2 Replace Conditional With Polymorphism: delegando lógica específica para subclasses
 
 No cenário abaixo temos uma funcão com várias condicionais `if/elif` que tratam diferentes comportamentos de acordo com o tipo de `Bird`. Problema: essa classe dificulta manutenção, extensão do código, a organização do código em geral está confusa, e viola o princípio como o [Open/Closed Principle](https://en.wikipedia.org/wiki/Open%E2%80%93closed_principle).Em cenários reais, quando mais casos são adicionados, o método cresce e se torna mais difícil de testar e compreender isoladamente.
 
-**Código antes:**
+**Código original:**
 
 ```python
 class Bird:
@@ -105,7 +123,7 @@ class Bird:
 
 A técnica acima consiste em substituir estruturas condicionais, como `if/elif` por chamadas polimórficas, passando o comportamento específico para cada subclasse. Isso melhora a legibilidade e facilita a extensão do código.
 
-**Código depois:**
+**Código refatorado:**
 
 ```python
     class Bird:
@@ -125,17 +143,162 @@ A técnica acima consiste em substituir estruturas condicionais, como `if/elif` 
             return 0 if self.isNailed else self.getBaseSpeed(self.voltage)
 ```
 
-O copilot implementa a substituição de condicionais por subclasses específicas para cada tipo de objeto, respeitando os princípios da técnica, a refatoração ficou muito próxima da indicada pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-conditional-with-polymorphism_after.py) .
+O copilot implementa a substituição de condicionais por subclasses específicas para cada tipo de objeto, respeitando os princípios da técnica, a refatoração ficou muito próxima da indicada pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-conditional-with-polymorphism_after.py).
 
-## Refatoração de API alterando multiplos arquivos
+#### 2.1.3 Replace Temp With Query: removendo variáveis temporárias desnecessárias
 
-### Substitute Algorithm
+No código original, a função `calculateTotal` utiliza uma variável temporária chamada `basePrice` apenas para armazenar o resultado de uma expressão que poderia ser calculada diretamente (quantity \* itemPrice). Esse uso é redundante e pode ser substituído por uma query que encapsula a lógica, melhorando a clareza e a coesão do código.
+
+**Código original:**
+
+```python
+    def calculateTotal():
+        basePrice = quantity * itemPrice
+        if basePrice > 1000:
+            return basePrice * 0.95
+        else:
+            return basePrice * 0.98
+```
+
+O copilot utilizou a técnica `Replace Temp With Query`, substituindo a variável `basePrice` diretamente pela expressão lógica.
+
+**Código refatorado:**
+
+```python
+    # Replace Temp With Query
+    def calculateTotal():
+        if quantity * itemPrice > 1000:
+            return quantity * itemPrice * 0.95
+        else:
+            return quantity * itemPrice * 0.98
+```
+
+Apesar do copilot substituir corretamente a variável `basePrice` pela expressão lógica, falhou em encapsular essa lógica em um método que poderia ser reutilizado no código, como é indicado pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-temp-with-query_after.py). Isso mostra que o Copilot foi capaz de compreender o problema da variável temporária, mas não soube propor a melhor abstração para legibilidade e manutenção.
+
+#### 2.1.4 Replace Magic Number With Symbolic Constant: dando significado a números "mágicos"
+
+No código original, a constante `9.81` aparece de forma "solta" dentro da fórmula de cálculo da energia potencial. Esse valor representa a aceleração gravitacional na Terra, mas como está escrito diretamente no cálculo, é conhecido como **número mágico** - um valo numérico usado sem contexto explícito. Esse tipo de prática prejudica a legibilidade, dificulta manutenção e reutilização desse valor além de reduz a clareza semântica do código.
+
+**Código original:**
+
+```python
+    def potentialEnergy(mass, height):
+        return mass * height * 9.81
+```
+
+O Copilot utilizou a técnica `Replace Magic Number With Symbolic Constant`, atrelando o valor da aceleração gravitacional na Terra à variável `GRAVITY`.
+
+**Código refatorado:**
+
+```python
+    # Replace Magic Number With Symbolic Constant
+    GRAVITY = 9.81
+
+
+    def potentialEnergy(mass, height):
+        return mass * height * GRAVITY
+```
+
+O Copilot foi capaz de aplicar corretamente a técnica `Replace Magic Number With Symbolic Constant` e seu código difere do proposto pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-magic-number-with-symbolic-constant_after.py) apenas no nome da variável, enquanto o primeiro utilizou o nome `GRAVITATIONAL_CONSTANT`, o Copilot escolheu `GRAVITY`, sendo que ambos são válidos e descritivos do valor armazenado.
+
+#### 2.1.5 Extract Method: separando blocos com responsabilidades distintas
+
+No código original, o método `printOwing` realiza duas tarefas: exibe um banner e imprime os detalhes do cliente (nome e valor devido). Esse tipo de método com múltiplas responsabilidades prejudica a legibilidade e dificulta testes e manutenção.
+
+**Código original:**
+
+```python
+    def printOwing(self):
+        self.printBanner()
+
+        # print details
+        print("name:", self.name)
+        print("amount:", self.getOutstanding())
+```
+
+O Copilot aplicou a técnica `Extract Method`, encapsulando os prints em um novo método `printDetails`.
+
+**Código refatorado:**
+
+```python
+    # Extract Method
+    def printOwing(self):
+        self.printBanner()
+        self.printDetails()
+
+
+    def printDetails(self):
+        print("name:", self.name)
+        print("amount:", self.getOutstanding())
+```
+
+O Copilot aplicou corretamente a técnica `Extract Method` mas seu código difere do proposto pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/extract-method_after.py), pois enquanto o Guru extraiu o valor retornado por `getOutstanding()` passando como argumento para `printDetails`, o Copilot manteve o cálculo dentro do novo método, o que reduz a flexibilidade e dificulta o resuo do método extraído. Ainda assim o Copilot demonstrou boa capacidade em detectar e isolar responsabilidades.
+
+#### 2.1.6 Replace Exception With Test: eliminando uso de exceções para controle de fluxo
+
+O código original utiliza um bloco `try/except` para capturar `IndexError`. Esse padrão é problemático porque usa exceções para tratar fluxos esperados do programa, como o acesso a uma posição inexistente em uma lista. Embora válido, o uso compromate a clareza do código e pode impactar negativamente a performance. 
+
+```python
+    def getValueForPeriod(periodNumber):
+    try:
+        return values[periodNumber]
+    except IndexError:
+        return 0
+```
+
+Segundo o _RefactoringGuru_, a refatoração correta consistiria em substituir o uso da exceção por uma verificação explícita, utilizando a técnica [Replace Exception With Test](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-exception-with-test_after.py), no entanto o copilot sugeriu o seguinte código:
+
+```python
+    # Replace Error Code With Exception
+    def getValueForPeriod(periodNumber):
+        try:
+            return values[periodNumber]
+        except IndexError:
+            raise Exception("Invalid period number")
+```
+
+Nesse caso, o copilot aplicou uma técnica diferente: `Replace Error Code With Exception`, substituindo o valor do retorno por uma exceção explícita. Isso mostra que o modelo foi capaz de identificar que havia um padrão a ser transformado, mas não reconheceu corretamente qual téncica de refatoração era mais adequada ao contexto. O copilot não entendeu que o uso da exceção era o problema em si, mas sim que a resposta ao erro era insuficiente. Nesse caso, a refatoração tem um sentido técnico, mas falha em determinar o problema no código. Isso evidencia uma limitação importante: o copilot pode sugerir refatorações corretas, mas desalinhadas da intenção original.
+
+#### 2.1.7 Tabela comparativa de todas as técnicas
+
+Após a análise individual de cada técnica, organizamos os resultados da etapa 2.1 na tabela abaixo. Para cada caso, consideramos como acerto quando o Copilot aplicou a técnica correta com clareza e manteve o comportamento do código, mesmo que não tenha seguindo exatamente a implementação esperada ou sugerida pelo _RefactoringGuru_. 
+
+| Técnica de refatoração                        | Refatoração copilot     | Refatoração manual      |
+|:----------------------------------------------|:------------------------|:------------------------|
+| Consolidate Conditional Expression            | Aplicou corretamente    | Diferente da referência |
+| Consolidate Duplicate Conditional Fragments   | Aplicou corretamente    | Diferente da referência |
+| Decompose Conditional                         | Aplicou corretamente    | Diferente da referência |
+| Extract Class                                 | Aplicou parcialmente    | Diferente da referência |
+| Extract Method                                | Aplicou corretamente    | Diferente da referência |
+| Inline Method                                 | Aplicou corretamente    | Igual à referência      |
+| Inline Temp                                   | Aplicou corretamente    | Igual à referência      |
+| Introduce Assertion                           | Aplicou corretamente    | Igual à referência      |
+| Introduce Foreign Method                      | Aplicou corretamente    | Diferente da referência |
+| Introduce Null Object                         | Aplicou corretamente    | Diferente da referência |
+| Preserve Whole Object                         | Aplicou corretamente    | Igual à referência      |
+| Pull Up Constructor Body                      | Aplicou corretamente    | Diferente da referência |
+| Remove Assignments To Parameters              | Aplicou corretamente    | Igual à referência      |
+| Replace Array With Object                     | Aplicou corretamente    | Diferente da referência |
+| Replace Conditional With Polymorphism         | Aplicou corretamente    | Igual à referência      |
+| Replace Error Code With Exception             | Aplicou corretamente    | Diferente da referência |
+| Replace Exception With Test                   | Não aplicou             | -                       |
+| Replace Magic Number With Symbolic Constant   | Aplicou corretamente    | Igual à referência      |
+| Replace Method With Method Object             | Aplicou corretamente    | Igual à referência      |
+| Replace Nested Conditional With Guard Clauses | Aplicou corretamente    | Igual à referência      |
+| Replace Parameter With Explicit Methods       | Aplicou corretamente    | Igual à referência      |
+| Replace Parameter With Method Call            | Aplicou corretamente    | Diferente da referência |
+| Replace Temp With Query                       | Aplicou corretamente    | Diferente da referência |
+| Split Temporary Variable                      | Aplicou corretamente    | Igual à referência      |
+| Substitute Algorithm                          | Aplicou corretamente    | Diferente da referência |
+
+
+## 2.2 Refatoração de API alterando multiplos arquivos
 
 Para explorar a capacidade do copilot em contextos reais, utilizamos o [BrainiakAPI](https://github.com/bmentges/brainiak_api), uma API da [Globo]() voltada para manipulação de dados semânticos por meio de rotas REST. Ela oferece suporte a operações como CRUD, permalinks, buscas, sugestões e consultas parametrizadas, além de permitir a integração com múltiplas ontologias e bancos como Elasticsearch e Neptune.
 
 Neste exemplo, começamos com uma função responsável por validar os tipos das propriedades de uma instância. O código original possui diversos blocos `if/elif` que verificam os tipos esperados, tornando a função extensa e repetitiva.
 
-**Código antes:**
+**Código original:**
 
 ```python
 def validate_instance_properties_type(instance, props_type):
@@ -161,7 +324,7 @@ def validate_instance_properties_type(instance, props_type):
 - prompt:
   > Refactor the validate_instance_properties_type function using the Substitute Algorithm technique. Ensure the refactored code preserves the original behavior and improves readability
 
-**Código depois:**:
+**Código refatorado:**
 
 ```python
 def validate_instance_properties_type(instance, props_type):
@@ -182,104 +345,13 @@ def validate_instance_properties_type(instance, props_type):
 
 ```
 
+### Substitute Algorithm
+
 Na refatoração da função **validate_instance_properties_type**, o copilot substituiu um conjunto de estruturas `if-elif` por um dicionário que mapeia tipos e faz conversão. Essa mudança aplica a técnica **Substitute Algorithm**, isolando a lógica de conversão por tipo e deixa o código mais claro.
 
 Neste exemplo, a função é a mesma, mas a refatoração torna a estrutura do método muito mais clara. Agora é possível identificar as etapas de mapeamento de tipos, conversão e iteração sobre os valores, que contribui para uma leitura mais rápida e manutenção mais segura do código.
 
-**Replace Temp With Query**
-
-No código original, a função calculateTotal utiliza uma variável temporária chamada basePrice apenas para armazenar o resultado de uma expressão que poderia ser calculada diretamente (quantity \* itemPrice). Esse uso é redundante e pode ser substituído por uma query que encapsula a lógica, melhorando a clareza e a coesão do código.
-
-**Código original:**
-
-```python
-    def calculateTotal():
-        basePrice = quantity * itemPrice
-        if basePrice > 1000:
-            return basePrice * 0.95
-        else:
-            return basePrice * 0.98
-```
-
-O copilot utilizou a técnica Replace Temp With Query, substituindo a variável basePrice diretamente pela expressão lógica.
-
-**Código refatorado:**
-
-```python
-    # Replace Temp With Query
-    def calculateTotal():
-        if quantity * itemPrice > 1000:
-            return quantity * itemPrice * 0.95
-        else:
-            return quantity * itemPrice * 0.98
-```
-
-Apesar do copilot substituir corretamente a variável basePrice pela expressão lógica, falhou em encapsular essa lógica em um método que poderia ser reutilizado no código, como é indicado pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-temp-with-query_after.py). Isso mostra que o Copilot foi capaz de compreender o problema da variável temporária, mas não soube propor a melhor abstração para legibilidade e manutenção.
-
-**Problema: uso de número mágico no código:**
-
-No código original, a constante 9.81 aparece de forma "solta" dentro da fórmula de cálculo da energia potencial. Esse valor representa a aceleração gravitacional na Terra, mas como está escrito diretamente no cálculo, é conhecido como **número mágico** - um valo numérico usado sem contexto explícito. Esse tipo de prática prejudica a legibilidade, dificulta manutenção e reutilização desse valor além de reduz a clareza semântica do código.
-
-**Código original:**
-
-```python
-    def potentialEnergy(mass, height):
-        return mass * height * 9.81
-```
-
-#### Técnica: Replace Magic Number With Symbolic Constant
-
-O Copilot utilizou a técnica Replace Magic Number With Symbolic Constant, atrelando o valor da aceleração gravitacional na Terra à variável GRAVITY.
-
-**Código refatorado:**
-
-```python
-    # Replace Magic Number With Symbolic Constant
-    GRAVITY = 9.81
-
-
-    def potentialEnergy(mass, height):
-        return mass * height * GRAVITY
-```
-
-O Copilot foi capaz de aplicar corretamente a técnica Replace Magic Number With Symbolic Constant e seu código difere do proposto pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-magic-number-with-symbolic-constant_after.py) apenas no nome da variável, enquanto o primeiro utilizou o nome GRAVITATIONAL_CONSTANT, o Copilot escolheu GRAVITY, sendo que ambos são válidos e descritivos do valor armazenado.
-
-**Problema: bloco de código que mistura responsabilidades:**
-
-No código original, o método printOwing realiza duas tarefas: exibe um banner e imprime os detalhes do cliente (nome e valor devido). Esse tipo de método com múltiplas responsabilidades prejudica a legibilidade e dificulta testes e manutenção.
-
-**Código original:**
-
-```python
-    def printOwing(self):
-        self.printBanner()
-
-        # print details
-        print("name:", self.name)
-        print("amount:", self.getOutstanding())
-```
-
-#### Técnica: Extract Method
-
-O Copilot aplicou a técnica Extract Method, encapsulando os prints em um novo método printDetails.
-
-**Código refatorado:**
-
-```python
-    # Extract Method
-    def printOwing(self):
-        self.printBanner()
-        self.printDetails()
-
-
-    def printDetails(self):
-        print("name:", self.name)
-        print("amount:", self.getOutstanding())
-```
-
-O Copilot aplicou corretamente a técnica Extract Method mas seu código difere do proposto pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/extract-method_after.py), pois enquanto o Guru extraiu o valor retornado por getOutstanding() passando como argumento para printDetails, o Copilot manteve o cálculo dentro do novo método, o que reduz a flexibilidade e dificulta o resuo do método extraído. Ainda assim o Copilot demonstrou boa capacidade em detectar e isolar responsabilidades.
-
-### Removendo a integração com um Banco de Dados
+### 2.3 Removendo a integração com um Banco de Dados
 
 Vamos remover uma funcionalidade de dentro de um _handler_ . No arquivo `handler-antes.py`, temos um trecho de código responsável por gerenciar a comunicação entre dois bancos de dados: [Neptune](https://docs.aws.amazon.com/neptune/) e [Elasticsearch](https://www.elastic.co/elasticsearch). Na Globo, o Neptune é utilizado para armazenar dados em grafo, seguindo o modelo [RDF](https://www.w3.org/RDF/). Já o Elasticsearch é usado para buscas rápidas e indexação de dados.
 
