@@ -391,9 +391,11 @@ O segundo passo foi a limpeza do código, e nesta fase usamos o copilot agent pa
 
 Em todo processo de refatoração, o **Github Copilot Agent** demonstrou boa capacidade para entender o contexto das tarefas. Nos exemplos acima, vimos que, em tarefas pontuais como modificar uma função ou aplicar uma técnica de refatoração isolada, a ferramenta é bastante útil e suas sugestões são fáceis de entender e avaliar.
 
+Neste aspecto o _copilot agent_ pode ajudar no hábito de refatorar com mais frequência, alinhando com práticas ágeis como melhorias incrementais.
+
 Já em contextos mais complexos, como a reestruturação de múltiplos arquivos, precisamos ter mais cuidado. Na execusão acima, estavamos bastante familiarizadas com o código, foi mais fácil decidir quando aceitar ou rejeitar as sugestões.
 
-Consideramos que o recurso de edição em múltiplos arquivos é poderoso, mas também aumenta o risco de erros, exigindo revisões mais detalhadas.
+E este cenário nos leva a uma pergunta respondida no livro de Fowler: **Quando refatorar?** o autor reforça que depende, pois refatorar deve sempre ter um propósito claro, e preciamos responder se vale o custo.
 
 ## 4. Saiba Mais
 
