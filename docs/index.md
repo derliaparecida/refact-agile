@@ -14,24 +14,26 @@
 
 A refatoração contínua é uma prática valorizada dentro das metodologias ágeis por contribuir diretamente para a manutenção da qualidade do software ao longo do tempo. Uma das primeiras metodologias formalizadas foi o Extreme Programming (XP), descrito no livro [Extreme Programming Explained](https://www.oreilly.com/library/view/extreme-programming-explained/0201616416/), de Kent Beck. Nele, a refatoração é apresentada como uma das doze práticas centrais, justamente pelo seu papel em manter o design limpo e adaptável à mudanças frequentes. XP é considerado por autores como Martin Fowler como um [catalisador importante do movimento ágil](https://martinfowler.com/bliki/ExtremeProgramming.html), ajudando a consolidar práticas como desenvolvimento incremental e melhoria contínua. Foi justamente essa conexão entre refatoração e desenvolvimento ágil que motivou a escolha do tema deste trabalho.
 
-Neste artigo, exploramos o uso do GitHub Copilot Agent (v 1.336.0) como ferramenta de apoio à refatoração de código. Combinando teoria e prática, avaliamos a eficácia do agente em aplicar técnicas clássicas de refatoração descritas no livro [Refatoração](https://refactoring.com/) de Martin Fowler. Para isso, utilizamos trechos de código representativos de problemas comuns no desenvolvimento de software, além de aplicar a ferramenta em um cenário real: a refatoração de uma API com múltiplos arquivos. O objetivo é entender o potencial dessas ferramentas baseadas em modelos de linguagem para apoiar a manutenção e evolução de sistemas.
-
 Existem diversas maneiras de usar o copilot, uma das mais comuns é o autocompletar, -- _utilizo há algum tempo e recomendo, só preste atenção, pois ele pode recomendar alguns códigos estranhos_ --. Apesar disso, o autocomplete é bastante eficiente para tarefas repetitivas, como geração de logs e testes unitários, especialmente quando sabemos o que deve ser implementado. Essa eficiência, inclusive, já é demonstrada por estudos recentes que mostram que o uso de LLMs para sugestões de código pode aumentar significativamente a produtividade e reduzir erros em tarefas de baixa complexidade [(Vaithilingam et al., 2022](https://www.researchgate.net/publication/360267490_Expectation_vs_Experience_Evaluating_the_Usability_of_Code_Generation_Tools_Powered_by_Large_Language_Models); [Jaffe et al., 2024)](https://www.microsoft.com/en-us/research/wp-content/uploads/2024/07/Generative-AI-in-Real-World-Workplaces.pdf).
 
 Outra forma interessante de uso é por meio de comentários com pequenas dicas, como o nome de um método ou um TODO. Nessas situações, o copilot faz sugestões bastante úteis.
 
-Mais recentemente, essas capacidades foram ampliadas com a introdução do **GitHub Copilot Agent**. Este novo modo permite que a ferramenta vá além das sugestões pontuais: ela pode editar múltiplos arquivos, entendendo o contexto do projeto e fazendo mudanças estruturais.
+Mais recentemente, essas capacidades foram ampliadas com a introdução do **Agent**. Este novo modo permite que a ferramenta vá além das sugestões pontuais: ela pode editar múltiplos arquivos, entendendo o contexto do projeto e fazendo mudanças estruturais.
 
-Esse avanço amplia o potencial de uso de LLMs em tarefas mais sofisticadas, como a refatoração de código. Refatorar significa melhorar a estrutura interna do código sem alterar seu comportamento, um conceito central na engenharia de software que tem sido explorado com LLMs como ferramenta de apoio [(Kass, 2025)](https://www.authorea.com/doi/full/10.22541/au.174768395.52918781). É também uma prática para manter a legibilidade, reduzir problemas técnicos e facilitar manutenções. A ideia é começar com tarefas pequenas preservando o funcionamento do código e evoluir para ratefas mais complexas.
+Esse avanço amplia o potencial de uso de LLMs em tarefas mais sofisticadas. Refatorar significa melhorar a estrutura interna do código sem alterar seu comportamento, um conceito central na engenharia de software que tem sido explorado com LLMs como ferramenta de apoio [(Kass, 2025)](https://www.authorea.com/doi/full/10.22541/au.174768395.52918781). É também uma prática para manter a legibilidade, reduzir problemas técnicos e facilitar manutenções. A ideia é começar com tarefas pequenas preservando o funcionamento do código e evoluir para tarefas mais complexas.
 
-Ainda que com limitações em segurança e precisão, a capacidade de LLMs de identificar e aplicar refatorações automaticamente já foi demonstrada em estudos recentes [(Liu et al., 2023)](https://www.researchgate.net/publication/385629991_An_Empirical_Study_on_the_Potential_of_LLMs_in_Automated_Software_Refactoring). O processo é interativo:
+Ainda que com limitações em segurança e precisão, a capacidade de LLMs de identificar e aplicar refatorações automaticamente já foi demonstrada em estudos recentes [(Liu et al., 2023)](https://www.researchgate.net/publication/385629991_An_Empirical_Study_on_the_Potential_of_LLMs_in_Automated_Software_Refactoring).
+
+Neste artigo, exploramos o uso do _GitHub Copilot Agent - GPT-4.1_ como ferramenta de apoio à refatoração de código. Combinando teoria e prática, avaiamos a eficácia do agente em aplicar técnicas clássicas de refatoração do livro [Refatoração](https://refactoring.com/) de Martin Fowler. Para isso, utilizamos trechos de código representativos de problemas comuns no desenvolvimento de software, além de utilizar a ferramenta em um cenário real. O objetivo é entender o potencial dessas ferramentas baseadas em modelos de linguagem para apoiar a manutenção e evolução de sistemas.
+
+O processo é interativo:
 
 - Você descreve o que precisa ser feito;
 - Adiciona arquivos ou diretórios no contexto que deseja alterar;
 - Analisa os _diffs_ gerados;
 - Revisa, adapta e decide se aceita ou rejeita as sugestões.
 
-Para realizar esse processo, primeiro passamos para o Copilot uma lista de técnicas de refatoração e analisamos alguns exemplos da lista. Os demais casos são resumidos em uma tabela, mostrando acertos e erros. E para testar a ferramenta em um cenário real, usamos uma [API](<(https://github.com/bmentges/brainiak_api)>) e aplicamos a refatoração para remover a integração com um banco de dados.
+Seguindo este processo, primeiro passamos para o Copilot uma lista de técnicas de refatoração e analisamos alguns exemplos da lista. Os demais casos são resumidos em uma tabela, mostrando acertos e erros. E para testar a ferramenta em um cenário real, usamos uma [API](<(https://github.com/bmentges/brainiak_api)>) e aplicamos a refatoração para remover a integração com um banco de dados.
 
 ## Sumário
 
@@ -54,7 +56,7 @@ Para realizar esse processo, primeiro passamos para o Copilot uma lista de técn
 
 ## 1. Como estruturamos os testes
 
-Para realizar os testes, organizamos o código original na pasta `python-before`, criamos também um arquivo chamado `refatoracoes_possiveis.txt`, contendo a lista embaralhada de técnicas de refatoração. Em seguida, utilizamos o GitHub Copilot com o modelo GPT-4.1, e para evitar viés, ocultamos o código original refatorado (`python`) durante o processo. Passamos para o Copilot como contexto a lista das técnicas, o conteúdo da pasta `python-before` e um prompt com instruções.
+Para realizar os testes, organizamos o código original na pasta `python-before`, criamos também um arquivo chamado `refatoracoes_possiveis.txt`, contendo a lista embaralhada de técnicas de refatoração. Em seguida, utilizamos o GitHub Copilot com o modelo GPT-4.1, e para evitar viés ocultamos o código original refatorado (`python`) durante o processo. Passamos para o Copilot como contexto a lista das técnicas, o conteúdo da pasta `python-before` e um prompt com instruções.
 
 - Prompt utilizado:
   > _“Read each file under the folder 'codigos/python-before'. For each file you will generate a new file with suffix '\_copilot' with a refactoring suggestion. The refactoring must be one listed in the file 'refatoracoes_possiveis.txt'. You should write the refactoring name as a comment on the first line of the generated file.”_
@@ -78,7 +80,7 @@ No código abaixo, a variável `temp` é usada para armazenar dois valores: o pe
     print(temp)
 ```
 
-A técnica aplicada pelo copilot está correta, evitando reuso e melhorando legibilidade do código.
+Um valor utilizado para diferentes própósitos, é um tereno fértil para confusão e bugs, - então, quando vejo um, utilizo _Split Variable_ para separar o uso. Martin Folwer.
 
 **Código refatorado:**
 
@@ -90,11 +92,15 @@ A técnica aplicada pelo copilot está correta, evitando reuso e melhorando legi
     print(area)
 ```
 
-Neste exemplo, o copilot teve um bom desempenho, manteve a mesma abordagem do [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/split-temporary-variable_after.py). A substituição da variável genérica `temp` por variáveis com nomes específicos, torna o código mais claro, o nome de variáveis devem refletir o valor que armazenam [CleanCode](clencode).
+Neste exemplo, o copilot manteve a mesma abordagem do [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/split-temporary-variable_after.py). A substituição da variável genérica `temp` por variáveis com nomes específicos, torna o código mais claro e cada variável fica com uma responsabilidade, tornando o processo de leitura do código mais claro.
 
 #### 2.1.2 Replace Conditional With Polymorphism: delegando lógica específica para subclasses
 
-No cenário abaixo temos uma funcão com várias condicionais `if/elif` que tratam diferentes comportamentos de acordo com o tipo de `Bird`. Problema: essa classe dificulta manutenção, extensão do código, a organização do código em geral está confusa, e viola o princípio como o [Open/Closed Principle](https://en.wikipedia.org/wiki/Open%E2%80%93closed_principle).Em cenários reais, quando mais casos são adicionados, o método cresce e se torna mais difícil de testar e compreender isoladamente.
+![Processo da refatoração](assets/large-class-01.png)
+
+[Créditos aqui](https://refactoring.guru/smells/large-class)
+
+No cenário abaixo temos uma funcão com várias condicionais `if/elif` que tratam diferentes comportamentos de acordo com o tipo de `Bird`. Problema: essa classe dificulta manutenção, extensão do código, a organização do código em geral está confusa, e viola o princípio como o [Open/Closed Principle](https://en.wikipedia.org/wiki/Open%E2%80%93closed_principle). Em cenários reais, quando mais casos são adicionados, o método cresce e se torna mais difícil de testar e compreender isoladamente.
 
 **Código original:**
 
@@ -110,10 +116,6 @@ class Bird:
         else:
             raise Exception("Should be unreachable")
 ```
-
-![Processo da refatoração](assets/large-class-01.png)
-
-[Créditos aqui](https://refactoring.guru/smells/large-class)
 
 A técnica acima consiste em substituir estruturas condicionais, como `if/elif` por chamadas polimórficas, passando o comportamento específico para cada subclasse. Isso melhora a legibilidade e facilita a extensão do código.
 
@@ -141,7 +143,7 @@ O copilot implementa a substituição de condicionais por subclasses específica
 
 #### 2.1.3 Replace Temp With Query: removendo variáveis temporárias desnecessárias
 
-No código original, a função `calculateTotal` utiliza uma variável temporária chamada `basePrice` apenas para armazenar o resultado de uma expressão que poderia ser calculada diretamente (quantity \* itemPrice). Esse uso é redundante e pode ser substituído por uma query que encapsula a lógica, melhorando a clareza e a coesão do código.
+No código original, a função `calculateTotal` utiliza uma variável temporária chamada `basePrice` apenas para armazenar o resultado de uma expressão que poderia ser calculada diretamente (quantity \* itemPrice). Essa variável pode ser substituída por uma query que encapsula a lógica, melhorando a clareza e a coesão do código.
 
 **Código original:**
 
@@ -180,7 +182,7 @@ No código original, a constante `9.81` aparece de forma "solta" dentro da fórm
         return mass * height * 9.81
 ```
 
-O Copilot utilizou a técnica `Replace Magic Number With Symbolic Constant`, atrelando o valor da aceleração gravitacional na Terra à variável `GRAVITY`.
+O Copilot aplicou a técnica `Replace Magic Number With Symbolic Constant`, atrelando o valor da aceleração gravitacional na Terra à variável `GRAVITY`.
 
 **Código refatorado:**
 
@@ -188,12 +190,11 @@ O Copilot utilizou a técnica `Replace Magic Number With Symbolic Constant`, atr
     # Replace Magic Number With Symbolic Constant
     GRAVITY = 9.81
 
-
     def potentialEnergy(mass, height):
         return mass * height * GRAVITY
 ```
 
-O Copilot foi capaz de aplicar corretamente a técnica `Replace Magic Number With Symbolic Constant` e seu código difere do proposto pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-magic-number-with-symbolic-constant_after.py) apenas no nome da variável, enquanto o primeiro utilizou o nome `GRAVITATIONAL_CONSTANT`, o Copilot escolheu `GRAVITY`, sendo que ambos são válidos e descritivos do valor armazenado.
+Neste exemplo, o Copilot aplicou a técnica `Replace Magic Number With Symbolic Constant` e seu código difere do proposto pelo [RefactoringGuru](https://github.com/RefactoringGuru/refactoring-examples/blob/main/simple/python/replace-magic-number-with-symbolic-constant_after.py) apenas no nome da variável, enquanto o especialista utilizou o nome `GRAVITATIONAL_CONSTANT`, o Copilot escolheu `GRAVITY`, e neste caso, podemos considerar que ambos os nomes tem poder explicativo para a variável.
 
 #### 2.1.5 Extract Method: separando blocos com responsabilidades distintas
 
@@ -287,7 +288,7 @@ Após a análise individual de cada técnica, organizamos os resultados da etapa
 
 ## 2.2 Reestruturando uma API alterando multiplos arquivos
 
-Para explorar o copilot em contextos reais, vamos utilizar o [BrainiakAPI](https://github.com/bmentges/brainiak_api), uma API da [Globo](https://www.globo.com/) voltada para manipulação de dados semânticos. Essa API é responsável por várias operações: CRUD, permalinks, buscas, sugestões e consultas parametrizadas, e faz integração com bancos de dados: [Neptune](https://docs.aws.amazon.com/neptune/) e [Elasticsearch](https://www.elastic.co/elasticsearch). Na Globo, o Neptune é utilizado para armazenar dados em grafo, seguindo o modelo [RDF](https://www.w3.org/RDF/). O Elasticsearch é usado para buscas rápidas e indexação de dados.
+Para explorar o copilot agent em um contexto mais complexo e real, vamos utilizar o [BrainiakAPI](https://github.com/bmentges/brainiak_api), uma API da [Globo](https://www.globo.com/) voltada para manipulação de dados semânticos. Essa API é responsável por várias operações: CRUD, permalinks, buscas, sugestões e consultas parametrizadas, e faz integração com bancos de dados: [Neptune](https://docs.aws.amazon.com/neptune/) e [Elasticsearch](https://www.elastic.co/elasticsearch). Na Globo, o Neptune é utilizado para armazenar dados em grafo, seguindo o modelo [RDF](https://www.w3.org/RDF/). O Elasticsearch é usado para buscas rápidas e indexação de dados.
 
 Vamos olhar para uma função da API e refatorar...
 
@@ -384,9 +385,9 @@ O segundo passo foi a limpeza do código, e nesta fase usamos o copilot agent pa
 
 ## 3. Conclusão
 
-O **Github Copilot Agent** demonstrou boa capacidade para entender o contexto das tarefas. Nos exemplos acima, vimos que, em tarefas pontuais como modificar uma função ou aplicar uma técnica de refatoração isolada, a ferramenta é bastante útil e suas sugestões são fáceis de entender e avaliar. Já em contextos mais complexos, como a reestruturação de múltiplos arquivos, precisamos ter mais cuidado. No nosso caso, como eu já estava bastante familiarizada com o código, foi mais fácil decidir quando aceitar ou rejeitar as sugestões.
+O **Github Copilot Agent** demonstrou boa capacidade para entender o contexto das tarefas. Nos exemplos acima, vimos que, em tarefas pontuais como modificar uma função ou aplicar uma técnica de refatoração isolada, a ferramenta é bastante útil e suas sugestões são fáceis de entender e avaliar. Já em contextos mais complexos, como a reestruturação de múltiplos arquivos, precisamos ter mais cuidado. Na execusão acima, estavamos bastante familiarizadas com o código, foi mais fácil decidir quando aceitar ou rejeitar as sugestões.
 
-Consideramos que o recurso de edição em múltiplos arquivos é poderoso, mas também aumenta o risco de erros, exigindo uma revisão detalhada. E por fim, quero destacar que minha experiência com o Copilot é mais pautada em contextos menores, como extração de métodos e escrita de testes unitários, e esta foi nossa primeira experiência prática com reestruturações maiores.
+Consideramos que o recurso de edição em múltiplos arquivos é poderoso, mas também aumenta o risco de erros, exigindo uma revisão detalhada.
 
 ## 4. Saiba Mais
 
