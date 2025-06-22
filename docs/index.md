@@ -47,8 +47,8 @@ Seguindo este processo, primeiro passamos para o Copilot uma lista de técnicas 
        2.1.5 [Extract Method: separando blocos com responsabilidades distintas](#215-extract-method-separando-blocos-com-responsabilidades-distintas)  
        2.1.6 [Replace Exception With Test: eliminando uso de exceções para controle de fluxo](#216-replace-exception-with-test-eliminando-uso-de-exceções-para-controle-de-fluxo)  
        2.1.7 [Tabela comparativa de todas as técnicas](#217-tabela-comparativa-de-todas-as-técnicas)  
-     2.2 [Reestruturando uma API alterando multiplos arquivos](#22-reestruturando-uma-API-alterando-multiplos-arquivos)  
-     2.3 [Removendo a integração com o Banco de Dados Neptune](#23-removendo-a-integração-com-o-Banco-de-Dados-Neptune)
+     2.2 [Reestruturando uma API alterando multiplos arquivos](#22-reestruturando-uma-api-alterando-multiplos-arquivos)  
+     2.3 [Removendo a integração com o Banco de Dados Neptune](#23-removendo-a-integracao-com-o-banco-de-dados-neptune)
 3. [Conclusão](#3-conclusão)
 4. [Saiba mais](#4-saiba-mais)
 
@@ -385,9 +385,15 @@ O segundo passo foi a limpeza do código, e nesta fase usamos o copilot agent pa
 
 ## 3. Conclusão
 
-O **Github Copilot Agent** demonstrou boa capacidade para entender o contexto das tarefas. Nos exemplos acima, vimos que, em tarefas pontuais como modificar uma função ou aplicar uma técnica de refatoração isolada, a ferramenta é bastante útil e suas sugestões são fáceis de entender e avaliar. Já em contextos mais complexos, como a reestruturação de múltiplos arquivos, precisamos ter mais cuidado. Na execusão acima, estavamos bastante familiarizadas com o código, foi mais fácil decidir quando aceitar ou rejeitar as sugestões.
+> Para realmente funcionar de modo ágil, uma equipe deve ser capacitada a fazer refatorações e ser entusiasmada com elas - e, para isso, muitos aspectos de seu processo devem estar alinhados com fazer as refatorações como parte constante do seu trabalho.
+>
+> Martin Fowler
 
-Consideramos que o recurso de edição em múltiplos arquivos é poderoso, mas também aumenta o risco de erros, exigindo uma revisão detalhada.
+Em todo processo de refatoração, o **Github Copilot Agent** demonstrou boa capacidade para entender o contexto das tarefas. Nos exemplos acima, vimos que, em tarefas pontuais como modificar uma função ou aplicar uma técnica de refatoração isolada, a ferramenta é bastante útil e suas sugestões são fáceis de entender e avaliar.
+
+Já em contextos mais complexos, como a reestruturação de múltiplos arquivos, precisamos ter mais cuidado. Na execusão acima, estavamos bastante familiarizadas com o código, foi mais fácil decidir quando aceitar ou rejeitar as sugestões.
+
+Consideramos que o recurso de edição em múltiplos arquivos é poderoso, mas também aumenta o risco de erros, exigindo revisões mais detalhadas.
 
 ## 4. Saiba Mais
 
