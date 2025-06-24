@@ -14,7 +14,7 @@
 
 A refatoração contínua é uma prática valorizada dentro das metodologias ágeis por contribuir diretamente para a manutenção da qualidade do software ao longo do tempo. Uma das primeiras metodologias formalizadas foi o Extreme Programming (XP), descrito no livro [Extreme Programming Explained](https://www.oreilly.com/library/view/extreme-programming-explained/0201616416/), de Kent Beck. Nele, a refatoração é apresentada como uma das doze práticas centrais, justamente pelo seu papel em manter o design limpo e adaptável à mudanças frequentes. XP é considerado por autores como Martin Fowler como um [catalisador importante do movimento ágil](https://martinfowler.com/bliki/ExtremeProgramming.html), ajudando a consolidar práticas como desenvolvimento incremental e melhoria contínua. Foi justamente essa conexão entre refatoração e desenvolvimento ágil que motivou a escolha do tema deste trabalho.
 
-Existem diversas maneiras de usar o copilot, uma das mais comuns é o autocompletar, -- _utilizo há algum tempo e recomendo, só preste atenção, pois ele pode recomendar alguns códigos estranhos_ --. Apesar disso, o autocomplete é bastante eficiente para tarefas repetitivas, como geração de logs e testes unitários, especialmente quando sabemos o que deve ser implementado. Essa eficiência, inclusive, já é demonstrada por estudos recentes que mostram que o uso de LLMs para sugestões de código pode aumentar significativamente a produtividade e reduzir erros em tarefas de baixa complexidade [(Vaithilingam et al., 2022](https://www.researchgate.net/publication/360267490_Expectation_vs_Experience_Evaluating_the_Usability_of_Code_Generation_Tools_Powered_by_Large_Language_Models); [Jaffe et al., 2024)](https://www.microsoft.com/en-us/research/wp-content/uploads/2024/07/Generative-AI-in-Real-World-Workplaces.pdf).
+Existem diversas maneiras de usar o copilot, uma das mais comuns é o autocompletar, -- **_após utilizar por algum tempo recomendamos prestar atenção, pois o copilot pode recomendar alguns códigos estranhos_** --. Apesar disso, o autocomplete é bastante eficiente para tarefas repetitivas, como geração de logs e testes unitários, especialmente quando sabemos o que deve ser implementado. Essa eficiência, inclusive, já é demonstrada por estudos recentes que mostram que o uso de LLMs para sugestões de código pode aumentar significativamente a produtividade e reduzir erros em tarefas de baixa complexidade [(Vaithilingam et al., 2022](https://www.researchgate.net/publication/360267490_Expectation_vs_Experience_Evaluating_the_Usability_of_Code_Generation_Tools_Powered_by_Large_Language_Models); [Jaffe et al., 2024)](https://www.microsoft.com/en-us/research/wp-content/uploads/2024/07/Generative-AI-in-Real-World-Workplaces.pdf).
 
 Outra forma interessante de uso é por meio de comentários com pequenas dicas, como o nome de um método ou um TODO. Nessas situações, o copilot faz sugestões bastante úteis.
 
@@ -49,7 +49,9 @@ Seguindo este processo, primeiro passamos para o Copilot uma lista de técnicas 
        2.1.7 [Tabela comparativa de todas as técnicas](#217-tabela-comparativa-de-todas-as-técnicas)  
      2.2 [Reestruturando uma API alterando multiplos arquivos](#22-reestruturando-uma-api-alterando-multiplos-arquivos)  
      2.3 [Removendo a integração com o Banco de Dados Neptune](#23-removendo-a-integracao-com-o-banco-de-dados-neptune)
-3. [Conclusão](#3-conclusão)
+3. [Conclusão](#3-conclusão)  
+   3.1 [Tempo e custo da refatoração com o Copilot Agent](#31-tempo-e-custo-da-refatoração-com-o-copilot-agent)
+
 4. [Saiba mais](#4-saiba-mais)
 
 ---
@@ -80,7 +82,9 @@ No código abaixo, a variável `temp` é usada para armazenar dois valores: o pe
     print(temp)
 ```
 
-Um valor utilizado para diferentes própósitos, é um tereno fértil para confusão e bugs, - então, quando vejo um, utilizo _Split Variable_ para separar o uso. Martin Folwer.
+> Um valor utilizado para diferentes própósitos, é um tereno fértil para confusão e bugs, - então, quando vejo um, utilizo _Split Variable_ para separar o uso.
+>
+> Martin Folwer.
 
 **Código refatorado:**
 
@@ -345,7 +349,7 @@ def validate_instance_properties_type(instance, props_type):
 
 O copilot substituiu o conjunto de estruturas `if-elif` por um dicionário que mapeia tipos e faz conversão, aplicando a técnica **Substitute Algorithm**.
 
-A função é a mesma, mas a refatoração torna a estrutura do método mais claro, o mapemanto ficou separado da iteração, o que evita repetição e permite que a extenção do código possa ser feito de forma mais segura.
+A função é a mesma, mas a refatoração torna a estrutura do método mais claro, o mapeamanto ficou separado da iteração, o que evita repetição e permite que a extenção do código possa ser feito de forma mais segura.
 
 ## 2.3 Removendo a integração com o Banco de Dados Neptune
 
@@ -395,7 +399,21 @@ Neste aspecto o _copilot agent_ pode ajudar no hábito de refatorar com mais fre
 
 Já em contextos mais complexos, como a reestruturação de múltiplos arquivos, precisamos ter mais cuidado. Na execusão acima, estavamos bastante familiarizadas com o código, foi mais fácil decidir quando aceitar ou rejeitar as sugestões.
 
-E este cenário nos leva a uma pergunta respondida no livro de Fowler: **Quando refatorar?** o autor reforça que depende, pois refatorar deve sempre ter um propósito claro, e preciamos responder se vale o custo.
+E este cenário nos leva a uma pergunta respondida no livro de Fowler: **Quando refatorar?** o autor reforça que depende, pois refatorar deve sempre ter um propósito claro, e precisamos responder se vale o custo.
+
+### 3.1 Tempo de refatoraçao do Copilot Agent
+
+A aplicação das técnicas de refatoração listadas levou cerca de 1 minuto e meio com o Copilot Agent, demonstrando agilidade nas tarefas pontuais. Já no caso da refatoração da API, a primeira interação (removendo a integração com o banco Neptune em um único arquivo) levou cerca de 30 segundos. No entanto, ao solicitar a remoção completa de todas as referências ao Neptune, o processo se estendeu: o Copilot passou a realizar sugestões por etapas e interrompeu a execução em alguns momentos para confirmar se deveria continuar. Considerando essas pausas e as revisões necessárias, essa fase levou aproximadamente 1 hora, seguida por novas interações para eliminar referências restantes.
+
+### 3.1 Tempo e Custo da Refatoração com Copilot Agent
+
+A aplicação das técnicas de refatoração, levou **menos de um minito**. Já no caso da refatoração da API, a primeira interação levou cerca de **30 segundos**. No entanto, ao solicitar a remoção completa de todas as referências ao Neptune, o processo foi um pouco mais demorado: o Copilot passou a realizar sugestões por etapas e interrompendo a execução em alguns momentos para confirmar se deveria continuar. Considerando essas pausas e as revisões necessárias, essa fase levou aproximadamente **1 hora**, seguida por novas interações para eliminar referências restantes. Algo interessante de cometar é que Copilot Agent é uma ferramenta paga, e para o uso de modelos mais robustos, como o GPT-4.1 que foi utilizado, temos um limite de uso, par ao plano empresarial. Ou seja, a cada request estamos gastando o limite .... além do plano bussines, existem tbm diferentes [planos](https://docs.github.com/pt/copilot/about-github-copilot/plans-for-github-copilot), com versão gratuita com recursos limitados e opções pagas voltadas para usuários individuais
+
+### 3.1 Tempo e custo da refatoração com o Copilot Agent
+
+A aplicação das técnicas clássicas de refatoração levou **menos de um minuto**. No caso da refatoração da API, a primeira solicitação — removendo um `if` da lógica de comunicação com o Neptune — levou cerca de **30 segundos**. Porém, na remoção completa das referências do banco, o processo foi mais demorado: o Copilot passou a sugerir mudanças em etapas e interrompendo a execução em alguns momentos para confirmar se deveria continuar. Com as pausas e as revisões necessárias, essa etapa levou cerca de **1 hora**, seguida de interações adicionais para eliminar referências que restaram que não foram cronometradas.
+
+É importante destacar que o Copilot Agent é uma ferramenta paga e, no plano empresarial (**Copilot Business**), o uso de modelos mais robustos como o **GPT-4.1** tem limite de uso **300 _premium requests_** por usuário. Cada requisição consome parte da cota. Além do plano Business, o GitHub oferece [outros planos](https://docs.github.com/pt/copilot/about-github-copilot/plans-for-github-copilot), incluindo uma versão gratuita com recursos limitados e opções pagas voltadas para planos individuais.
 
 ## 4. Saiba Mais
 
@@ -407,7 +425,7 @@ E este cenário nos leva a uma pergunta respondida no livro de Fowler: **Quando 
 
 - [Exploring GenAI: Multi-file Editing](https://martinfowler.com/articles/exploring-gen-ai/11-multi-file-editing.html) — Este post faz parte de uma [série](<(https://martinfowler.com/articles/exploring-gen-ai.html)>) publicada no blog do Martin Fowler sobre o uso de LLMs no desenvolvimento de software. A série documenta o uso de algumas ferramentas, como o copilot agent, compartilha aprendizados e reflexões sobre o uso.
 
-- Artigos que abordam o uso de LLMs: Encomtramos támbém alguns artigos interessantes que exploram na pratica o uso de LLMs para refatoração e modernização de código:
+- Artigos que abordam o uso de LLMs: Encontramos támbém alguns artigos interessantes que exploram na pratica o uso de LLMs para refatoração e modernização de código:
 
   - [Leveraging LLMs for Legacy Code Modernization](https://arxiv.org/abs/2411.14971) — Este artigo analisa como LLMs podem ajudar na documentação de sistemas legados escritos nas linguagens: MUMPS e Assembly para mainframe. Ao ler o artigo, testei o coplit agent para escrever um readme de uma app e o teste foi bem sucedido.
 
