@@ -401,14 +401,6 @@ Já em contextos mais complexos, como a reestruturação de múltiplos arquivos,
 
 E este cenário nos leva a uma pergunta respondida no livro de Fowler: **Quando refatorar?** o autor reforça que depende, pois refatorar deve sempre ter um propósito claro, e precisamos responder se vale o custo.
 
-### 3.1 Tempo de refatoraçao do Copilot Agent
-
-A aplicação das técnicas de refatoração listadas levou cerca de 1 minuto e meio com o Copilot Agent, demonstrando agilidade nas tarefas pontuais. Já no caso da refatoração da API, a primeira interação (removendo a integração com o banco Neptune em um único arquivo) levou cerca de 30 segundos. No entanto, ao solicitar a remoção completa de todas as referências ao Neptune, o processo se estendeu: o Copilot passou a realizar sugestões por etapas e interrompeu a execução em alguns momentos para confirmar se deveria continuar. Considerando essas pausas e as revisões necessárias, essa fase levou aproximadamente 1 hora, seguida por novas interações para eliminar referências restantes.
-
-### 3.1 Tempo e Custo da Refatoração com Copilot Agent
-
-A aplicação das técnicas de refatoração, levou **menos de um minito**. Já no caso da refatoração da API, a primeira interação levou cerca de **30 segundos**. No entanto, ao solicitar a remoção completa de todas as referências ao Neptune, o processo foi um pouco mais demorado: o Copilot passou a realizar sugestões por etapas e interrompendo a execução em alguns momentos para confirmar se deveria continuar. Considerando essas pausas e as revisões necessárias, essa fase levou aproximadamente **1 hora**, seguida por novas interações para eliminar referências restantes. Algo interessante de cometar é que Copilot Agent é uma ferramenta paga, e para o uso de modelos mais robustos, como o GPT-4.1 que foi utilizado, temos um limite de uso, par ao plano empresarial. Ou seja, a cada request estamos gastando o limite .... além do plano bussines, existem tbm diferentes [planos](https://docs.github.com/pt/copilot/about-github-copilot/plans-for-github-copilot), com versão gratuita com recursos limitados e opções pagas voltadas para usuários individuais
-
 ### 3.1 Tempo e custo da refatoração com o Copilot Agent
 
 A aplicação das técnicas clássicas de refatoração levou **menos de um minuto**. No caso da refatoração da API, a primeira solicitação — removendo um `if` da lógica de comunicação com o Neptune — levou cerca de **30 segundos**. Porém, na remoção completa das referências do banco, o processo foi mais demorado: o Copilot passou a sugerir mudanças em etapas e interrompendo a execução em alguns momentos para confirmar se deveria continuar. Com as pausas e as revisões necessárias, essa etapa levou cerca de **1 hora**, seguida de interações adicionais para eliminar referências que restaram que não foram cronometradas.
